@@ -15,7 +15,7 @@ public class Controller implements ActionListener {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Controller frame = new Controller();
+					new Controller();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -41,6 +41,7 @@ public class Controller implements ActionListener {
 			@Override
 	        public void keyPressed(KeyEvent e) {
 				char c = Character.toUpperCase(e.getKeyChar());
+				if(snake.isMultiplayer()) {
 				switch(e.getKeyCode()) {
 				case KeyEvent.VK_DOWN:{
 					c='K';
@@ -57,6 +58,25 @@ public class Controller implements ActionListener {
 				default:
 					break;
 				}
+				}
+				else {
+					switch(e.getKeyCode()) {
+					case KeyEvent.VK_DOWN:{
+						c='S';
+					}break;
+					case KeyEvent.VK_UP:{
+						c='W';
+					}break;
+					case KeyEvent.VK_LEFT:{
+						c='A';
+					}break;
+					case KeyEvent.VK_RIGHT:{
+						c='D';
+					}break;
+					default:
+						break;
+					}
+				}
 					if(c=='W'||c=='A'||c=='S'||c=='D') {
 						direction = c;
 					}
@@ -72,6 +92,21 @@ public class Controller implements ActionListener {
 		if(e.getSource()==menu.getBtnPlay()) {
 			if(menu.getRdbt2Player().isSelected()) {
 				snake.setMultiplayer(true);
+			}
+			try {
+				String str = menu.getAreaField().getText();
+				int n=Integer.valueOf(str.replaceAll("[^0-9]", ""));
+				System.out.println(n);
+				if(n>40||n<10) {
+					snake.setFieldSize(40);
+				}
+				else {
+					snake.setFieldSize(n);
+				}
+				
+			}
+			catch(NumberFormatException e1){
+				snake.setFieldSize(40);
 			}
 			try {
 				String str = menu.getCellField().getText();
@@ -99,6 +134,9 @@ public class Controller implements ActionListener {
 			frame.setVisible(true);
 			snake.setStart(true);
 			snake.genApple();
+			if(snake.isMultiplayer()) {
+				snake.genAppleP2();
+			}
 			frame.getPanel().getBtnRestart().setVisible(false);
 			direction=' ';
 			directionP2=' ';

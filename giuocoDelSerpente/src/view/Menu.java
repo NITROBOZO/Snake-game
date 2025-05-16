@@ -29,6 +29,7 @@ public class Menu extends JFrame {
 	private JRadioButton rdbt2Player;
 	private JComboBox comboBoxVel;
 	private JTextField cellField;
+	private JTextField areaField;
 	private JButton btnColori;
 	
 
@@ -53,6 +54,9 @@ public class Menu extends JFrame {
 	public JTextField getCellField() {
 		return cellField;
 	}
+	public JTextField getAreaField() {
+		return areaField;
+	}
 	/**
 	 * Create the frame.
 	 */
@@ -66,14 +70,6 @@ public class Menu extends JFrame {
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
-		JLabel lblTitolo = new JLabel("SNAKE");
-		lblTitolo.setForeground(new Color(255, 255, 255));
-		
-		lblTitolo.setHorizontalAlignment(JLabel.CENTER);
-		lblTitolo.setFont(new Font("Unispace", Font.PLAIN, 48));
-		lblTitolo.setBounds(0, 30, 528, 70);
-		contentPane.add(lblTitolo);
 		
 		rdbt1Player = new JRadioButton("1 Player");
 		rdbt1Player.setForeground(new Color(255, 255, 255));
@@ -106,37 +102,38 @@ public class Menu extends JFrame {
 		comboBox = new JComboBox();
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5"}));
 		comboBox.setSelectedIndex(2);
-		comboBox.setBounds(270, 168, 39, 27);
+		comboBox.setBounds(225, 168, 39, 27);
 		contentPane.add(comboBox);
 		
 		lblLunghezzaSnake = new JLabel("Lunghezza");
 		lblLunghezzaSnake.setForeground(new Color(255, 255, 255));
 		lblLunghezzaSnake.setFont(new Font("Unispace", Font.PLAIN, 13));
-		lblLunghezzaSnake.setBounds(251, 131, 79, 27);
+		lblLunghezzaSnake.setBounds(215, 131, 79, 27);
 		contentPane.add(lblLunghezzaSnake);
 		
 		JLabel lblVelocita = new JLabel("Velocità");
 		lblVelocita.setForeground(Color.WHITE);
 		lblVelocita.setFont(new Font("Unispace", Font.PLAIN, 13));
-		lblVelocita.setBounds(331, 131, 65, 27);
+		lblVelocita.setBounds(301, 131, 65, 27);
 		contentPane.add(lblVelocita);
 		
 		comboBoxVel = new JComboBox();
 		comboBoxVel.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5"}));
 		comboBoxVel.setSelectedIndex(3);
-		comboBoxVel.setBounds(344, 168, 39, 27);
+		comboBoxVel.setBounds(305, 168, 39, 27);
 		contentPane.add(comboBoxVel);
 		
 		cellField = new JTextField();
 		cellField.setText("20");
-		cellField.setBounds(434, 175, 33, 20);
+		cellField.setBounds(377, 171, 33, 20);
 		cellField.setColumns(10);
 		contentPane.add(cellField);
+		
 		
 		JLabel lblGrandezzaCelle = new JLabel("<html><center>Grandezza celle</center></html>");
 		lblGrandezzaCelle.setForeground(Color.WHITE);
 		lblGrandezzaCelle.setFont(new Font("Unispace", Font.PLAIN, 13));
-		lblGrandezzaCelle.setBounds(414, 131, 85, 39);
+		lblGrandezzaCelle.setBounds(354, 133, 85, 39);
 		contentPane.add(lblGrandezzaCelle);
 		
 		btnColori = new JButton("COLORI");
@@ -144,5 +141,24 @@ public class Menu extends JFrame {
 		btnColori.setFocusPainted(false);
 		btnColori.setBounds(410, 284, 89, 23);
 		contentPane.add(btnColori);
+		
+		areaField = new JTextField();
+		areaField.setText("20");
+		areaField.setColumns(10);
+		areaField.setBounds(450, 171, 33, 20);
+		contentPane.add(areaField);
+		
+		JLabel lblTitolo = new JLabel("SNAKE");
+		lblTitolo.setHorizontalAlignment(JLabel.CENTER);
+		lblTitolo.setForeground(Color.WHITE);
+		lblTitolo.setFont(new Font("Dialog", Font.BOLD, 38));
+		lblTitolo.setBounds(10, 28, 516, 39);
+		contentPane.add(lblTitolo);
+		
+		JLabel lblArea = new JLabel("Area");
+		lblArea.setForeground(Color.WHITE);
+		lblArea.setFont(new Font("Dialog", Font.PLAIN, 13));
+		lblArea.setBounds(447, 131, 79, 27);
+		contentPane.add(lblArea);
 	}
 }

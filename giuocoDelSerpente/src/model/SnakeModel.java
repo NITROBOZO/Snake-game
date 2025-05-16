@@ -13,6 +13,7 @@ public class SnakeModel {
 	private ArrayList<Point> cordinateCorpo1;
 	private ArrayList<Point> cordinateCorpo2;
 	private Point applePos;
+	private Point applePosP2;
 	private boolean giocoFinito;
 	private int punteggio;
 	private boolean start;
@@ -20,7 +21,6 @@ public class SnakeModel {
 	private boolean multiplayer;
 	private boolean moved;
 	private boolean movedP2;
-	private int multiplayerField;
 	public SnakeModel()
 	{	
 		movedP2=false;
@@ -31,10 +31,10 @@ public class SnakeModel {
 		this.lunghezzaInit = 2;
 		this.fieldSize = 20;
 		this.applePos = new Point(99999999, 99999999);
+		this.applePosP2 = new Point(99999999, 99999999);
 		this.giocoFinito = false;
 		this.punteggio=0;
 		this.velocita=25*1;
-		multiplayerField=fieldSize*2;
 		start=false;
 		multiplayer=false;
 	}
@@ -60,8 +60,8 @@ public class SnakeModel {
 		Collections.reverse(cordinateCorpo1);
 		if(multiplayer) {
 			this.cordinateCorpo2.clear();
-			for (int i = multiplayerField-lunghezzaInit; i < fieldSize; i++) {
-				this.cordinateCorpo2.add(new Point(i * cellSize, 0));
+			for (int i = fieldSize*2-lunghezzaInit; i < fieldSize*2; i++) {
+				this.cordinateCorpo2.add(new Point((i+1) * cellSize, 0));
 			}
 		}
 	}
@@ -74,12 +74,11 @@ public class SnakeModel {
 		return fieldSize;
 	}
 	public int getMultiplayerFieldSize() {
-		return fieldSize;
+		return fieldSize*2;
 	}
 
 	public void setFieldSize(int fieldSize) {
 		this.fieldSize = fieldSize;
-		this.multiplayerField=fieldSize*2;
 	}
 
 	public void setCellSize(int cellSize) {
@@ -110,6 +109,7 @@ public class SnakeModel {
 		this.punteggio=0;
 		moved=false;
 		movedP2=false;
+		this.applePosP2.setLocation(99999999, 99999999);
 		for (int i = 0; i < lunghezzaInit; i++) {
 			this.cordinateCorpo1.add(new Point(i * cellSize, 0));
 		}
@@ -134,21 +134,30 @@ public class SnakeModel {
 	public Point getApplePos() {
 		return this.applePos;
 	}
+	public Point getApplePosP2() {
+		return this.applePosP2;
+	}
 
 	public void genApple() {
 		Random random = new Random();
-		int x;
-		int y;
-		/*if(multiplayer) {
-			x = random.nextInt(multiplayerField) * cellSize;
+		int x=0;
+		int y=0;
+		if(multiplayer) {
+			x = random.nextInt(fieldSize*2) * cellSize;
 		}
 		else {
 			x = random.nextInt(fieldSize) * cellSize;
-		}*/
-		x = random.nextInt(fieldSize) * cellSize;
+		}
 		y = random.nextInt(fieldSize) * cellSize;
-		
 		this.applePos.setLocation(x, y);
+	}
+	public void genAppleP2() {
+		Random random = new Random();
+		int x=0;
+		int y=0;
+		x = random.nextInt(fieldSize*2) * cellSize;
+		y = random.nextInt(fieldSize) * cellSize;
+		this.applePosP2.setLocation(x, y);
 	}
 
 	public int getLunghezza() {
@@ -196,7 +205,7 @@ public class SnakeModel {
 				}
 			}
 			
-
+			if(!multiplayer) {
 			switch (c) {
 			case 'W': {
 				if (this.cordinateCorpo1.get(0).y != 0) {
@@ -227,7 +236,38 @@ public class SnakeModel {
 				break;
 			}
 			}
-			if(multiplayer) {
+			}
+			else {
+				switch (c) {
+				case 'W': {
+					if (this.cordinateCorpo1.get(0).y != 0) {
+						this.cordinateCorpo1.get(0).y = cordinateCorpo1.get(0).y - cellSize;
+						moved=true;
+					}
+					break;
+				}
+				case 'A': {
+					if (this.cordinateCorpo1.get(0).x != 0) {
+						this.cordinateCorpo1.get(0).x = cordinateCorpo1.get(0).x - cellSize;
+						moved=true;
+					}
+					break;
+				}
+				case 'S': {
+					if (this.cordinateCorpo1.get(0).y != fieldSize * cellSize) {
+						this.cordinateCorpo1.get(0).y = cordinateCorpo1.get(0).y + cellSize;
+						moved=true;
+					}
+					break;
+				}
+				case 'D': {
+					if (this.cordinateCorpo1.get(0).x != (fieldSize*2) * cellSize) {
+						this.cordinateCorpo1.get(0).x = cordinateCorpo1.get(0).x + cellSize;
+						moved=true;
+					}
+					break;
+				}
+				}
 				switch (cP2) {
 				case 'I': {
 					if (this.cordinateCorpo2.get(0).y != 0) {
@@ -251,7 +291,7 @@ public class SnakeModel {
 					break;
 				}
 				case 'L': {
-					if (this.cordinateCorpo2.get(0).x != fieldSize * cellSize) {
+					if (this.cordinateCorpo2.get(0).x != (fieldSize*2) * cellSize) {
 						this.cordinateCorpo2.get(0).x = cordinateCorpo2.get(0).x + cellSize;
 						movedP2=true;
 					}
@@ -267,16 +307,40 @@ public class SnakeModel {
 	}
 
 	public boolean appleCollision() {
-		if (this.cordinateCorpo1.get(0).equals(this.applePos)) {
-			punteggio++;
-			this.cordinateCorpo1.add(new Point(999999999,999999999));
-			genApple();
-			return true;
+		if(multiplayer) {
+			if (this.cordinateCorpo1.get(0).equals(this.applePos)||this.cordinateCorpo1.get(0).equals(this.applePosP2)) {
+				punteggio++;
+				this.cordinateCorpo1.add(new Point(999999999,999999999));
+				if(this.cordinateCorpo1.get(0).equals(this.applePos)) {
+					genApple();
+					return true;
+				}
+				else {
+					genAppleP2();
+					return true;
+				}
+				
+			}
+			else if (this.cordinateCorpo2.get(0).equals(this.applePos)||this.cordinateCorpo2.get(0).equals(this.applePosP2)) {
+				this.cordinateCorpo2.add(new Point(999999999,999999999));
+				if(this.cordinateCorpo2.get(0).equals(this.applePos)) {
+					genApple();
+					return true;
+				}
+				else {
+					genAppleP2();
+					return true;
+				}
+			}
 		}
-		else if(multiplayer && this.cordinateCorpo2.get(0).equals(this.applePos)) {
-			this.cordinateCorpo2.add(new Point(999999999,999999999));
-			genApple();
-			return true;
+		else
+		{
+			if (this.cordinateCorpo1.get(0).equals(this.applePos)) {
+				punteggio++;
+				this.cordinateCorpo1.add(new Point(999999999,999999999));
+				genApple();
+				return true;
+			}
 		}
 		return false;
 	}

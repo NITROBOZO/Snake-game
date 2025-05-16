@@ -111,7 +111,9 @@ public class JPanel_ extends JPanel {
 					}
 				}
 			}
-			if (snake.getLunghezza() % 2 == 0) {
+			g.drawImage(APPLEIMG[1], snake.getApplePosP2().x, snake.getApplePosP2().y, snake.getCellSize(), snake.getCellSize(),
+				this);
+			if ((snake.getLunghezza()+snake.getLunghezzaP2()) % 2 == 0) {
 				g.drawImage(APPLEIMG[1], snake.getApplePos().x, snake.getApplePos().y, snake.getCellSize(), snake.getCellSize(),
 						this);
 			} else {

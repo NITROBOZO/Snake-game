@@ -128,6 +128,7 @@ public class Menu extends JFrame {
 		contentPane.add(comboBoxVel);
 		
 		cellField = new JTextField();
+		cellField.setText("20");
 		cellField.setBounds(434, 175, 33, 20);
 		cellField.setColumns(10);
 		contentPane.add(cellField);

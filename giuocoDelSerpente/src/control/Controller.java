@@ -29,7 +29,7 @@ public class Controller implements ActionListener {
 	public SnakeModel snake;
 	private MyFrame frame;
 	public Controller() {
-		snake=new SnakeModel(true);
+		snake=new SnakeModel();
 		menu= new Menu();
 		frame=new MyFrame(snake);
 		menu.setVisible(true);
@@ -65,20 +65,40 @@ public class Controller implements ActionListener {
 					}
 				}
 	        });
-		snake.genApple();
 		timer = new Timer(50, this);
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==menu.getBtnPlay()) {
+			if(menu.getRdbt2Player().isSelected()) {
+				snake.setMultiplayer(true);
+			}
+			try {
+				String str = menu.getCellField().getText();
+				int n=Integer.valueOf(str.replaceAll("[^0-9]", ""));
+				System.out.println(n);
+				if(n>40||n<10) {
+					snake.setCellSize(40);
+				}
+				else {
+					snake.setCellSize(n);
+				}
+				
+			}
+			catch(NumberFormatException e1){
+				snake.setCellSize(40);
+			}
 			snake.setLunghezza(Integer.valueOf((String)menu.getComboBox().getSelectedItem()));
 			snake.setVelocita(Integer.valueOf((String)menu.getComboBoxVel().getSelectedItem()));
 			timer.setDelay(snake.getVelocita()); 
+			frame.getPanel().updatePrefSize();
+			frame.pack();
 			frame.getPanel().setFocusable(true);
 			frame.getPanel().requestFocusInWindow();
 			menu.setVisible(false); 
 			frame.setVisible(true);
 			snake.setStart(true);
+			snake.genApple();
 			frame.getPanel().getBtnRestart().setVisible(false);
 			direction=' ';
 			directionP2=' ';
@@ -93,23 +113,34 @@ public class Controller implements ActionListener {
 			frame.getPanel().getBtnRestart().setVisible(false);
 			frame.getPanel().getLblPunti().setText("SCORE: "+0);
 		}
-		else if(e.getSource()==menu.getCellField()) {
-			int n=Integer.valueOf(menu.getCellField().getText().replaceAll("[^0-9]", ""));
-			
-			
-		}
 		else{
 			snake.move(direction,directionP2);
 			frame.getContentPane().repaint();
 			if(snake.appleCollision()) {
 			frame.getPanel().getLblPunti().setText("SCORE: "+snake.getPunteggio());
 			}
-		    snake.controlloConflittoCorpo();
+		    int n = snake.controlloConflittoCorpo();
 		    
 		    if (snake.isGiocoFinito()) {
 				frame.getPanel().getLblGameOver().setVisible(true);
 				frame.getPanel().getBtnRestart().setVisible(true);
-				System.out.println("Game Over");
+				if(snake.isMultiplayer()){
+					switch(n) {
+					case 1:{
+						frame.getPanel().getLblGameOver().setText("<html><center>VINCE GIOCATORE 2<center></html>");
+					}break;
+					case 2:{
+						frame.getPanel().getLblGameOver().setText("<html><center>VINCE GIOCATORE 1<center></html>");
+					}break;
+					case 0:{
+						frame.getPanel().getLblGameOver().setText("PAREGGIO");
+					}break;
+					}
+					
+				}
+				else{
+					System.out.println("Game Over");
+				}
 				timer.stop();
 			}
 			

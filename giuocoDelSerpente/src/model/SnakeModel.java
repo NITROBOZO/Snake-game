@@ -7,9 +7,9 @@ import java.util.Random;
 
 public class SnakeModel {
 	static public final int VEL_LIMIT = 6;
-	public final int UNIT_SIZE;
+	private int cellSize;
 	private int lunghezzaInit;
-	public final int FIELD_SIZE;
+	private int fieldSize;
 	private ArrayList<Point> cordinateCorpo1;
 	private ArrayList<Point> cordinateCorpo2;
 	private Point applePos;
@@ -20,21 +20,23 @@ public class SnakeModel {
 	private boolean multiplayer;
 	private boolean moved;
 	private boolean movedP2;
-	public SnakeModel(boolean p)
+	private int multiplayerField;
+	public SnakeModel()
 	{	
 		movedP2=false;
 		moved=false;
 		this.cordinateCorpo1 = new ArrayList<Point>();
 		this.cordinateCorpo2 = new ArrayList<Point>();
-		this.UNIT_SIZE = 30;
+		this.cellSize = 0;
 		this.lunghezzaInit = 2;
-		this.FIELD_SIZE = 20;
+		this.fieldSize = 20;
 		this.applePos = new Point(99999999, 99999999);
 		this.giocoFinito = false;
 		this.punteggio=0;
 		this.velocita=25*1;
+		multiplayerField=fieldSize*2;
 		start=false;
-		multiplayer=p;
+		multiplayer=false;
 	}
 
 	/*public SnakeModel(int uSize, int iSize, int fSize) {
@@ -53,16 +55,37 @@ public class SnakeModel {
 		this.lunghezzaInit=n;
 		this.cordinateCorpo1.clear();
 		for (int i = 0; i < lunghezzaInit; i++) {
-			this.cordinateCorpo1.add(new Point(i * UNIT_SIZE, 0));
+			this.cordinateCorpo1.add(new Point(i * cellSize, 0));
 		}
 		Collections.reverse(cordinateCorpo1);
 		if(multiplayer) {
 			this.cordinateCorpo2.clear();
-			for (int i = FIELD_SIZE-lunghezzaInit; i < FIELD_SIZE; i++) {
-				this.cordinateCorpo2.add(new Point(i * UNIT_SIZE, 0));
+			for (int i = multiplayerField-lunghezzaInit; i < fieldSize; i++) {
+				this.cordinateCorpo2.add(new Point(i * cellSize, 0));
 			}
 		}
 	}
+	public int getCellSize() {
+		return cellSize;
+	}
+	
+
+	public int getFieldSize() {
+		return fieldSize;
+	}
+	public int getMultiplayerFieldSize() {
+		return fieldSize;
+	}
+
+	public void setFieldSize(int fieldSize) {
+		this.fieldSize = fieldSize;
+		this.multiplayerField=fieldSize*2;
+	}
+
+	public void setCellSize(int cellSize) {
+		this.cellSize = cellSize;
+	}
+
 	public boolean isMultiplayer() {
 		return multiplayer;
 	}
@@ -73,6 +96,11 @@ public class SnakeModel {
 	public int getVelocita() {
 		return this.velocita;
 	}
+	
+	public void setMultiplayer(boolean multiplayer) {
+		this.multiplayer = multiplayer;
+	}
+
 	public void restart()
 	{
 		this.cordinateCorpo1= new ArrayList<Point>();
@@ -83,7 +111,7 @@ public class SnakeModel {
 		moved=false;
 		movedP2=false;
 		for (int i = 0; i < lunghezzaInit; i++) {
-			this.cordinateCorpo1.add(new Point(i * UNIT_SIZE, 0));
+			this.cordinateCorpo1.add(new Point(i * cellSize, 0));
 		}
 		Collections.reverse(cordinateCorpo1);
 	}
@@ -109,8 +137,17 @@ public class SnakeModel {
 
 	public void genApple() {
 		Random random = new Random();
-		int x = random.nextInt(FIELD_SIZE) * UNIT_SIZE;
-		int y = random.nextInt(FIELD_SIZE) * UNIT_SIZE;
+		int x;
+		int y;
+		/*if(multiplayer) {
+			x = random.nextInt(multiplayerField) * cellSize;
+		}
+		else {
+			x = random.nextInt(fieldSize) * cellSize;
+		}*/
+		x = random.nextInt(fieldSize) * cellSize;
+		y = random.nextInt(fieldSize) * cellSize;
+		
 		this.applePos.setLocation(x, y);
 	}
 
@@ -163,28 +200,28 @@ public class SnakeModel {
 			switch (c) {
 			case 'W': {
 				if (this.cordinateCorpo1.get(0).y != 0) {
-					this.cordinateCorpo1.get(0).y = cordinateCorpo1.get(0).y - UNIT_SIZE;
+					this.cordinateCorpo1.get(0).y = cordinateCorpo1.get(0).y - cellSize;
 					moved=true;
 				}
 				break;
 			}
 			case 'A': {
 				if (this.cordinateCorpo1.get(0).x != 0) {
-					this.cordinateCorpo1.get(0).x = cordinateCorpo1.get(0).x - UNIT_SIZE;
+					this.cordinateCorpo1.get(0).x = cordinateCorpo1.get(0).x - cellSize;
 					moved=true;
 				}
 				break;
 			}
 			case 'S': {
-				if (this.cordinateCorpo1.get(0).y != FIELD_SIZE * UNIT_SIZE) {
-					this.cordinateCorpo1.get(0).y = cordinateCorpo1.get(0).y + UNIT_SIZE;
+				if (this.cordinateCorpo1.get(0).y != fieldSize * cellSize) {
+					this.cordinateCorpo1.get(0).y = cordinateCorpo1.get(0).y + cellSize;
 					moved=true;
 				}
 				break;
 			}
 			case 'D': {
-				if (this.cordinateCorpo1.get(0).x != FIELD_SIZE * UNIT_SIZE) {
-					this.cordinateCorpo1.get(0).x = cordinateCorpo1.get(0).x + UNIT_SIZE;
+				if (this.cordinateCorpo1.get(0).x != fieldSize * cellSize) {
+					this.cordinateCorpo1.get(0).x = cordinateCorpo1.get(0).x + cellSize;
 					moved=true;
 				}
 				break;
@@ -194,28 +231,28 @@ public class SnakeModel {
 				switch (cP2) {
 				case 'I': {
 					if (this.cordinateCorpo2.get(0).y != 0) {
-						this.cordinateCorpo2.get(0).y = cordinateCorpo2.get(0).y - UNIT_SIZE;
+						this.cordinateCorpo2.get(0).y = cordinateCorpo2.get(0).y - cellSize;
 						movedP2=true;
 					}
 					break;
 				}
 				case 'J': {
 					if (this.cordinateCorpo2.get(0).x != 0) {
-						this.cordinateCorpo2.get(0).x = cordinateCorpo2.get(0).x - UNIT_SIZE;
+						this.cordinateCorpo2.get(0).x = cordinateCorpo2.get(0).x - cellSize;
 						movedP2=true;
 					}
 					break;
 				}
 				case 'K': {
-					if (this.cordinateCorpo2.get(0).y != FIELD_SIZE * UNIT_SIZE) {
-						this.cordinateCorpo2.get(0).y = cordinateCorpo2.get(0).y + UNIT_SIZE;
+					if (this.cordinateCorpo2.get(0).y != fieldSize * cellSize) {
+						this.cordinateCorpo2.get(0).y = cordinateCorpo2.get(0).y + cellSize;
 						movedP2=true;
 					}
 					break;
 				}
 				case 'L': {
-					if (this.cordinateCorpo2.get(0).x != FIELD_SIZE * UNIT_SIZE) {
-						this.cordinateCorpo2.get(0).x = cordinateCorpo2.get(0).x + UNIT_SIZE;
+					if (this.cordinateCorpo2.get(0).x != fieldSize * cellSize) {
+						this.cordinateCorpo2.get(0).x = cordinateCorpo2.get(0).x + cellSize;
 						movedP2=true;
 					}
 					break;
@@ -252,42 +289,42 @@ public class SnakeModel {
 		try
 		{	
 			Point head1 = cordinateCorpo1.get(0);
-	        Point head2 = cordinateCorpo2.get(0);
+			if(multiplayer) {
+				Point head2 = cordinateCorpo2.get(0);
+				if (head1.equals(head2)) {
+		            giocoFinito = true;
+		            return 0;
+		        }
+				for (int i = 1; i < cordinateCorpo2.size(); i++) {
+		            if (cordinateCorpo2.get(i).equals(head1)) {
+		                giocoFinito = true;
+		                return 1; // P1 hit P2
+		            }
+		        }
+				for (int i = 1; i < cordinateCorpo2.size(); i++) {
+		            if (cordinateCorpo2.get(i).equals(head2)) {
+		                giocoFinito = true;
+		                return 2; // P2 hit itself
+		            }
+		        }
+				for (int i = 1; i < cordinateCorpo1.size(); i++) {
+		            if (cordinateCorpo1.get(i).equals(head2)) {
+		                giocoFinito = true;
+		                return 2; // P2 hit P1
+		            }
+		        }
+			}
+	        
 
-	        // 0. Head-to-head collision
-	        if (head1.equals(head2)) {
-	            giocoFinito = true;
-	            return 0;
-	        }
+	        
 
-	        // 1. Player 1 collides with its own body or player 2's body
 	        for (int i = 1; i < cordinateCorpo1.size(); i++) {
 	            if (cordinateCorpo1.get(i).equals(head1)) {
 	                giocoFinito = true;
 	                return 1; // P1 hit itself
 	            }
 	        }
-	        for (int i = 1; i < cordinateCorpo2.size(); i++) {
-	            if (cordinateCorpo2.get(i).equals(head1)) {
-	                giocoFinito = true;
-	                return 1; // P1 hit P2
-	            }
-	        }
-
-	        // 2. Player 2 collides with its own body or player 1's body
-	        for (int i = 1; i < cordinateCorpo2.size(); i++) {
-	            if (cordinateCorpo2.get(i).equals(head2)) {
-	                giocoFinito = true;
-	                return 2; // P2 hit itself
-	            }
-	        }
-	        for (int i = 1; i < cordinateCorpo1.size(); i++) {
-	            if (cordinateCorpo1.get(i).equals(head2)) {
-	                giocoFinito = true;
-	                return 2; // P2 hit P1
-	            }
-	        }
-
+	        
 	        return 3; // no collision
 	}
 		

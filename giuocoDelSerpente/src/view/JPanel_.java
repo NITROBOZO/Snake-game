@@ -36,19 +36,28 @@ public class JPanel_ extends JPanel {
 	public JButton getBtnRestart() {
 		return btnRestart;
 	}
+	public void updatePrefSize() {
+		if(snake.isMultiplayer()) {
+			setPreferredSize(new Dimension(snake.getMultiplayerFieldSize()*snake.getCellSize() + snake.getCellSize(), snake.getFieldSize()*snake.getCellSize() + snake.getCellSize()));
+		}
+		else {
+			setPreferredSize(new Dimension(snake.getFieldSize()*snake.getCellSize() + snake.getCellSize(), snake.getFieldSize()*snake.getCellSize() + snake.getCellSize()));
+		}
+		revalidate();
+	}
 
 	public JPanel_(SnakeModel snake) {
 		lblGameOver = new JLabel("GAME OVER");
 		lblGameOver.setHorizontalAlignment(JLabel.CENTER);
-		lblGameOver.setFont(new Font("Dialog", Font.BOLD, 77));
+		lblGameOver.setFont(new Font("Unispace", Font.PLAIN, 77));
 		lblGameOver.setForeground(new Color(255, 255, 255));
-		lblGameOver.setLocation(0, 231);
-		lblGameOver.setSize(600, 120);
+		lblGameOver.setLocation(0, 158);
+		lblGameOver.setSize(600, 193);
 		lblGameOver.setVisible(false);
 		add(lblGameOver);
 		this.snake = snake;
 		setLayout(null);
-		setPreferredSize(new Dimension(snake.FIELD_SIZE*snake.UNIT_SIZE + snake.UNIT_SIZE, snake.FIELD_SIZE*snake.UNIT_SIZE + snake.UNIT_SIZE));
+		setPreferredSize(new Dimension(snake.getFieldSize()*snake.getCellSize() + snake.getCellSize(), snake.getFieldSize()*snake.getCellSize() + snake.getCellSize()));
 		setBackground(Color.BLACK);
 		lblPunti = new JLabel("SCORE: 0");
 		lblPunti.setVisible(false);
@@ -85,9 +94,9 @@ public class JPanel_ extends JPanel {
 				} else {
 					g.setColor(Color.green);
 				}
-				g.fillRect(snake.getCoordinate(i).x, snake.getCoordinate(i).y, snake.UNIT_SIZE, snake.UNIT_SIZE);
+				g.fillRect(snake.getCoordinate(i).x, snake.getCoordinate(i).y, snake.getCellSize(), snake.getCellSize());
 				g.setColor(Color.red);
-				g.fillRect(snake.getCoordinate(0).x, snake.getCoordinate(0).y, snake.UNIT_SIZE, snake.UNIT_SIZE);
+				g.fillRect(snake.getCoordinate(0).x, snake.getCoordinate(0).y, snake.getCellSize(), snake.getCellSize());
 			}
 				if(snake.isMultiplayer()) {
 					for(int j = 0; j < snake.getLunghezzaP2(); j++) {
@@ -96,17 +105,17 @@ public class JPanel_ extends JPanel {
 						} else {
 							g.setColor(Color.cyan);
 						}
-						g.fillRect(snake.getCoordinateP2(j).x, snake.getCoordinateP2(j).y, snake.UNIT_SIZE, snake.UNIT_SIZE);
+						g.fillRect(snake.getCoordinateP2(j).x, snake.getCoordinateP2(j).y, snake.getCellSize(), snake.getCellSize());
 						g.setColor(Color.blue);
-						g.fillRect(snake.getCoordinateP2(0).x, snake.getCoordinateP2(0).y, snake.UNIT_SIZE, snake.UNIT_SIZE);
+						g.fillRect(snake.getCoordinateP2(0).x, snake.getCoordinateP2(0).y, snake.getCellSize(), snake.getCellSize());
 					}
 				}
 			}
 			if (snake.getLunghezza() % 2 == 0) {
-				g.drawImage(APPLEIMG[1], snake.getApplePos().x, snake.getApplePos().y, snake.UNIT_SIZE, snake.UNIT_SIZE,
+				g.drawImage(APPLEIMG[1], snake.getApplePos().x, snake.getApplePos().y, snake.getCellSize(), snake.getCellSize(),
 						this);
 			} else {
-				g.drawImage(APPLEIMG[0], snake.getApplePos().x, snake.getApplePos().y, snake.UNIT_SIZE, snake.UNIT_SIZE,
+				g.drawImage(APPLEIMG[0], snake.getApplePos().x, snake.getApplePos().y, snake.getCellSize(), snake.getCellSize(),
 						this);
 			}
 		}

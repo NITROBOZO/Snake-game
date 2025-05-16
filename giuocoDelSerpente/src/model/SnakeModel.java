@@ -17,7 +17,7 @@ public class SnakeModel {
 
 	public SnakeModel()
 	{
-		this.cordinateCorpo = new ArrayList<Point>(0);
+		this.cordinateCorpo = new ArrayList<Point>();
 		this.UNIT_SIZE = 30;
 		this.INITIAL_SIZE = 2;
 		this.FIELD_SIZE = 20;
@@ -41,7 +41,21 @@ public class SnakeModel {
 		for (int i = 0; i < INITIAL_SIZE; i++) {
 			this.cordinateCorpo.add(new Point(i * UNIT_SIZE, 0));
 		}
+		Collections.reverse(cordinateCorpo);
 	}
+	
+	public void restart()
+	{
+		this.cordinateCorpo = new ArrayList<Point>();
+		this.applePos = new Point(0, 0);
+		this.giocoFinito = false;
+		this.start=false;
+		for (int i = 0; i < INITIAL_SIZE; i++) {
+			this.cordinateCorpo.add(new Point(i * UNIT_SIZE, 0));
+		}
+		Collections.reverse(cordinateCorpo);
+	}
+	
 	public boolean isStart() {
 		return start;
 	}
@@ -92,7 +106,7 @@ public class SnakeModel {
 	}
 
 	public void move(char c) {
-		if (!this.giocoFinito) {
+		if (!this.giocoFinito && start) {
 			if(c != ' ') {
 				for (int i = this.cordinateCorpo.size() - 1; i > 0; i--) {
 					Point punto = this.cordinateCorpo.get(i - 1);

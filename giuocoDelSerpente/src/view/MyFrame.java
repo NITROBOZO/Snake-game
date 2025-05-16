@@ -32,7 +32,6 @@ public class MyFrame extends JFrame {
 		p= new JPanel_(snake);
 		p.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(p);
-		setVisible(true);
 	}
 
 }

@@ -16,7 +16,6 @@ public class Controller implements ActionListener {
 			public void run() {
 				try {
 					Controller frame = new Controller();
-					System.out.println(""+frame.snake.getCoordinate(0));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -26,38 +25,64 @@ public class Controller implements ActionListener {
 	private Timer timer;
 	private Menu menu;
 	private char direction = ' ';
+	private char directionP2 = ' ';
 	public SnakeModel snake;
 	private MyFrame frame;
 	public Controller() {
-		snake=new SnakeModel();
+		snake=new SnakeModel(true);
 		menu= new Menu();
 		frame=new MyFrame(snake);
 		menu.setVisible(true);
 		frame.setVisible(false);
 		menu.getBtnPlay().addActionListener(this);
+		menu.getCellField().addActionListener(this);
 		frame.getPanel().getBtnRestart().addActionListener(this);
 		frame.getContentPane().addKeyListener(new KeyAdapter() {
 			@Override
 	        public void keyPressed(KeyEvent e) {
 				char c = Character.toUpperCase(e.getKeyChar());
-				if(c=='W'||c=='A'||c=='S'||c=='D') {
-					direction = c;
+				switch(e.getKeyCode()) {
+				case KeyEvent.VK_DOWN:{
+					c='K';
+				}break;
+				case KeyEvent.VK_UP:{
+					c='I';
+				}break;
+				case KeyEvent.VK_LEFT:{
+					c='J';
+				}break;
+				case KeyEvent.VK_RIGHT:{
+					c='L';
+				}break;
+				default:
+					break;
 				}
-	        }
-		});
+					if(c=='W'||c=='A'||c=='S'||c=='D') {
+						direction = c;
+					}
+					else if(c=='I'||c=='J'||c=='K'||c=='L') {
+						directionP2 = c;
+					}
+				}
+	        });
 		snake.genApple();
 		timer = new Timer(50, this);
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==menu.getBtnPlay()) {
+			snake.setLunghezza(Integer.valueOf((String)menu.getComboBox().getSelectedItem()));
+			snake.setVelocita(Integer.valueOf((String)menu.getComboBoxVel().getSelectedItem()));
+			timer.setDelay(snake.getVelocita()); 
 			frame.getPanel().setFocusable(true);
 			frame.getPanel().requestFocusInWindow();
 			menu.setVisible(false); 
 			frame.setVisible(true);
 			snake.setStart(true);
-			timer.restart();
 			frame.getPanel().getBtnRestart().setVisible(false);
+			direction=' ';
+			directionP2=' ';
+			timer.restart();
 		}
 		else if(e.getSource() == frame.getPanel().getBtnRestart())
 		{
@@ -66,9 +91,15 @@ public class Controller implements ActionListener {
 			frame.setVisible(false);
 			frame.getPanel().getLblGameOver().setVisible(false);
 			frame.getPanel().getBtnRestart().setVisible(false);
+			frame.getPanel().getLblPunti().setText("SCORE: "+0);
+		}
+		else if(e.getSource()==menu.getCellField()) {
+			int n=Integer.valueOf(menu.getCellField().getText().replaceAll("[^0-9]", ""));
+			
+			
 		}
 		else{
-			snake.move(direction);
+			snake.move(direction,directionP2);
 			frame.getContentPane().repaint();
 			if(snake.appleCollision()) {
 			frame.getPanel().getLblPunti().setText("SCORE: "+snake.getPunteggio());
@@ -79,7 +110,6 @@ public class Controller implements ActionListener {
 				frame.getPanel().getLblGameOver().setVisible(true);
 				frame.getPanel().getBtnRestart().setVisible(true);
 				System.out.println("Game Over");
-				direction = ' ';
 				timer.stop();
 			}
 			

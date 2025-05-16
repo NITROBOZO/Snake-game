@@ -27,11 +27,11 @@ public class MyFrame extends JFrame {
 	 */
 	public MyFrame(SnakeModel snake) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(snake.FIELD_SIZE*snake.UNIT_SIZE + snake.UNIT_SIZE*2, snake.FIELD_SIZE*snake.UNIT_SIZE + snake.UNIT_SIZE*3);
-		setLocationRelativeTo(null);
 		p= new JPanel_(snake);
 		p.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(p);
+		pack();
+		setLocationRelativeTo(null);
 	}
 
 }

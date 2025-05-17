@@ -4,7 +4,7 @@ package view;
 import javax.swing.JFrame;
 import javax.swing.border.EmptyBorder;
 
-import model.SnakeModel;
+import model.SnakeMultiplayer;
 
 public class MyFrame extends JFrame {
 
@@ -25,7 +25,7 @@ public class MyFrame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public MyFrame(SnakeModel snake) {
+	public MyFrame(SnakeMultiplayer snake) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		p= new JPanel_(snake);
 		p.setBorder(new EmptyBorder(5, 5, 5, 5));

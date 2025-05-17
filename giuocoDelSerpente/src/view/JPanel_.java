@@ -1,6 +1,6 @@
 package view;
 
-import model.SnakeModel;
+import model.SnakeMultiplayer;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -17,7 +17,7 @@ import java.awt.event.ActionEvent;
 public class JPanel_ extends JPanel {
 	private static Image[] APPLEIMG = { new ImageIcon(JPanel_.class.getResource("/view/AppleBitten.png")).getImage(),
 			new ImageIcon(JPanel_.class.getResource("/view/AppleNoBite.png")).getImage() };
-	private SnakeModel snake;
+	private SnakeMultiplayer snake;
 	private JLabel lblPunti;
 	private JLabel lblGameOver;
 	private JButton btnRestart;
@@ -38,7 +38,7 @@ public class JPanel_ extends JPanel {
 	}
 	public void updatePrefSize() {
 		if(snake.isMultiplayer()) {
-			setPreferredSize(new Dimension(snake.getMultiplayerFieldSize()*snake.getCellSize() + snake.getCellSize(), snake.getFieldSize()*snake.getCellSize() + snake.getCellSize()));
+			setPreferredSize(new Dimension((snake.getFieldSize()*2)*snake.getCellSize() + snake.getCellSize(), snake.getFieldSize()*snake.getCellSize() + snake.getCellSize()));
 		}
 		else {
 			setPreferredSize(new Dimension(snake.getFieldSize()*snake.getCellSize() + snake.getCellSize(), snake.getFieldSize()*snake.getCellSize() + snake.getCellSize()));
@@ -46,7 +46,7 @@ public class JPanel_ extends JPanel {
 		revalidate();
 	}
 
-	public JPanel_(SnakeModel snake) {
+	public JPanel_(SnakeMultiplayer snake) {
 		lblGameOver = new JLabel("GAME OVER");
 		lblGameOver.setHorizontalAlignment(JLabel.CENTER);
 		lblGameOver.setFont(new Font("Unispace", Font.PLAIN, 77));
@@ -88,36 +88,36 @@ public class JPanel_ extends JPanel {
 				g.drawLine(0, i, snake.FIELD_SIZE * snake.UNIT_SIZE + snake.UNIT_SIZE, i);
 
 			}*/
-			for (int i = 0; i < snake.getLunghezza(); i++) {
+			for (int i = 0; i < snake.getLunghezza(0); i++) {
 				if (i == 0) {
 					g.setColor(Color.red);
 				} else {
 					g.setColor(Color.green);
 				}
-				g.fillRect(snake.getCoordinate(i).x, snake.getCoordinate(i).y, snake.getCellSize(), snake.getCellSize());
+				g.fillRect(snake.getCoordinate(0,i).x, snake.getCoordinate(0,i).y, snake.getCellSize(), snake.getCellSize());
 				g.setColor(Color.red);
-				g.fillRect(snake.getCoordinate(0).x, snake.getCoordinate(0).y, snake.getCellSize(), snake.getCellSize());
+				g.fillRect(snake.getCoordinate(0,0).x, snake.getCoordinate(0,0).y, snake.getCellSize(), snake.getCellSize());
 			}
 				if(snake.isMultiplayer()) {
-					for(int j = 0; j < snake.getLunghezzaP2(); j++) {
+					for(int j = 0; j < snake.getLunghezza(1); j++) {
 						if (j == 0) {
 							g.setColor(Color.blue);
 						} else {
 							g.setColor(Color.cyan);
 						}
-						g.fillRect(snake.getCoordinateP2(j).x, snake.getCoordinateP2(j).y, snake.getCellSize(), snake.getCellSize());
+						g.fillRect(snake.getCoordinate(1,j).x, snake.getCoordinate(1,j).y, snake.getCellSize(), snake.getCellSize());
 						g.setColor(Color.blue);
-						g.fillRect(snake.getCoordinateP2(0).x, snake.getCoordinateP2(0).y, snake.getCellSize(), snake.getCellSize());
+						g.fillRect(snake.getCoordinate(1,0).x, snake.getCoordinate(1,0).y, snake.getCellSize(), snake.getCellSize());
 					}
 				}
 			}
-			g.drawImage(APPLEIMG[1], snake.getApplePosP2().x, snake.getApplePosP2().y, snake.getCellSize(), snake.getCellSize(),
+			g.drawImage(APPLEIMG[1], snake.getApplePos(1).x, snake.getApplePos(1).y, snake.getCellSize(), snake.getCellSize(),
 				this);
-			if ((snake.getLunghezza()+snake.getLunghezzaP2()) % 2 == 0) {
-				g.drawImage(APPLEIMG[1], snake.getApplePos().x, snake.getApplePos().y, snake.getCellSize(), snake.getCellSize(),
+			if ((snake.getLunghezza(0)+snake.getLunghezza(1)) % 2 == 0) {
+				g.drawImage(APPLEIMG[1], snake.getApplePos(0).x, snake.getApplePos(0).y, snake.getCellSize(), snake.getCellSize(),
 						this);
 			} else {
-				g.drawImage(APPLEIMG[0], snake.getApplePos().x, snake.getApplePos().y, snake.getCellSize(), snake.getCellSize(),
+				g.drawImage(APPLEIMG[0], snake.getApplePos(0).x, snake.getApplePos(0).y, snake.getCellSize(), snake.getCellSize(),
 						this);
 			}
 		}

@@ -31,7 +31,6 @@ public class Controller implements ActionListener {
 	private char directionP2 = ' ';
 	public SnakeMultiplayer snake;
 	private MyFrame frame;
-	private int c = 0;
 
 	public Controller() {
 		snake = new SnakeMultiplayer();
@@ -46,8 +45,9 @@ public class Controller implements ActionListener {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				char c = Character.toUpperCase(e.getKeyChar());
-				if (snake.isMultiplayer()) {
-					switch (e.getKeyCode()) {
+				
+				if (snake.isMultiplayer()) {//scegli a quale giocatore assegnare i tasti, singleplayer, tutti a p1, 
+					switch (e.getKeyCode()) {//multiplayer WASD a p1, IJKL e le frecciette a p2
 					case KeyEvent.VK_DOWN: {
 						c = 'K';
 					}
@@ -120,56 +120,53 @@ public class Controller implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == menu.getBtnPlay()) {
-			if (menu.getRdbt2Player().isSelected()) {
-				snake.setMultiplayer(true);
-			} else {
-				snake.setMultiplayer(false);
-			}
-			snake.reset();
-			snake.setLunghezzaIniziale(Integer.valueOf((String) menu.getComboBox().getSelectedItem()));
-			snake.setVelocita(Integer.valueOf((String) menu.getComboBoxVel().getSelectedItem()));
-			timer.setDelay(snake.getVelocita());
-			snake.setStart(true);
-			System.out.println("l1: " + snake.getLunghezza(0));
+		if(e.getSource()==menu.getBtnPlay()) {
+		    // imposta parametri principali
+		    if(menu.getRdbt2Player().isSelected()) {
+		        snake.setMultiplayer(true);
+		        frame.getPanel().getLblPunti().setVisible(false);
+		    } else {
+		    	frame.getPanel().getLblPunti().setVisible(true);
+		        snake.setMultiplayer(false);
+		    }
+		    snake.setVelocita(Integer.valueOf((String)menu.getComboBoxVel().getSelectedItem()));
+		    timer.setDelay(snake.getVelocita());//regola velocità di gioco
+		    
+		    // Set field and cell size before snake creation
+		    try {
+		        String str = menu.getAreaField().getText();
+		        int n = Integer.valueOf(str.replaceAll("[^0-9]", ""));
+		        snake.setFieldSize(n > 40 || n < 10 ? 40 : n);
+		    } catch (NumberFormatException e1) {
+		        snake.setFieldSize(40);
+		    }
+		    try {
+		        String str = menu.getCellField().getText();
+		        int n = Integer.valueOf(str.replaceAll("[^0-9]", ""));
+		        snake.setCellSize(n > 40 || n < 10 ? 40 : n);
+		    } catch (NumberFormatException e1) {
+		        snake.setCellSize(40);
+		    }
 
-			try {
-				String str = menu.getAreaField().getText();
-				int n = Integer.valueOf(str.replaceAll("[^0-9]", ""));
-				System.out.println(n);
-				if (n > 40 || n < 10) {
-					snake.setFieldSize(40);
-				} else {
-					snake.setFieldSize(n);
-				}
-
-			} catch (NumberFormatException e1) {
-				snake.setFieldSize(40);
-			}
-			try {
-				String str = menu.getCellField().getText();
-				int n = Integer.valueOf(str.replaceAll("[^0-9]", ""));
-				System.out.println(n);
-				if (n > 40 || n < 10) {
-					snake.setCellSize(40);
-				} else {
-					snake.setCellSize(n);
-				}
-
-			} catch (NumberFormatException e1) {
-				snake.setCellSize(40);
-			}
-			frame.getPanel().updatePrefSize();
-			frame.pack();
-			frame.getPanel().setFocusable(true);
-			frame.getPanel().requestFocusInWindow();
-			menu.setVisible(false);
-			frame.setVisible(true);
-			snake.genApple();
-			frame.getPanel().getBtnRestart().setVisible(false);
-			direction = ' ';
-			directionP2 = ' ';
-			timer.restart();
+		    // inizializza il serpente
+		    snake.reset();
+		    snake.setLunghezzaIniziale(Integer.valueOf((String)menu.getComboBox().getSelectedItem()));
+		    snake.setStart(true);
+		    
+		    // aggiorna GUI
+		    frame.getPanel().updatePrefSize();
+		    frame.pack();
+		    frame.getPanel().setFocusable(true);
+		    frame.getPanel().requestFocusInWindow();
+		    menu.setVisible(false);
+		    frame.setVisible(true);
+		    
+		    // genera la mela/e
+		    snake.genApple();
+		    frame.getPanel().getBtnRestart().setVisible(false);
+		    direction = ' ';
+		    directionP2 = ' ';
+		    timer.restart();
 		} else if (e.getSource() == frame.getPanel().getBtnRestart()) {
 			menu.setVisible(true);
 			frame.setVisible(false);
@@ -177,14 +174,16 @@ public class Controller implements ActionListener {
 			frame.getPanel().getBtnRestart().setVisible(false);
 			frame.getPanel().getLblPunti().setText("SCORE: " + 0);
 		} else {
+			//inizio logica del gioco
 			snake.move(direction, directionP2);
 			frame.getContentPane().repaint();
 			if (snake.appleCollision()) {
 				frame.getPanel().getLblPunti().setText("SCORE: " + (snake.getPunteggio(0) + snake.getPunteggio(1)));
 			}
-			int n = snake.controlloConflittoCorpo();
+			int n = snake.controlloConflittoCorpo();//restituisce il numero del giocatore che perde,0 se è pareggio
 
 			if (snake.isGiocoFinito()) {
+				//messaggi di vincita
 				frame.getPanel().getLblGameOver().setVisible(true);
 				frame.getPanel().getBtnRestart().setVisible(true);
 				if (snake.isMultiplayer()) {

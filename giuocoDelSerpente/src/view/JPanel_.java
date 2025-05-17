@@ -11,8 +11,6 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class JPanel_ extends JPanel {
 	private static Image[] APPLEIMG = { new ImageIcon(JPanel_.class.getResource("/view/AppleBitten.png")).getImage(),
@@ -81,7 +79,6 @@ public class JPanel_ extends JPanel {
 	@Override
 	protected void paintComponent(Graphics g) {
 		if (snake.isStart()) {
-			lblPunti.setVisible(true);
 			super.paintComponent(g);
 			/*for (int i = 0; i <= (snake.FIELD_SIZE + 1) * snake.UNIT_SIZE; i += snake.UNIT_SIZE) {
 				g.drawLine(i, 0, i, snake.FIELD_SIZE * snake.UNIT_SIZE + snake.UNIT_SIZE);

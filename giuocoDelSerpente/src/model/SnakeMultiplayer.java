@@ -1,9 +1,9 @@
 package model;
 
 import java.awt.Point;
-import java.util.ArrayList;
-
 public class SnakeMultiplayer {
+	/*classe per gestire la logica tra serpenti, mele
+	 *e le variabili di gioco principali*/
 	static public final int VEL_LIMIT = 6;
 	private Apple[] apples;
 	private Snake[] snakes;
@@ -88,10 +88,12 @@ public class SnakeMultiplayer {
 		return giocoFinito;
 	}
 	public boolean appleCollision() {
+		//gestione collisioni con mela
 		if(multiplayer) {
-			if(snakes[0].isAppleCollision(apples[0].getApplePos())||snakes[0].isAppleCollision(apples[1].getApplePos())) {
+			if(snakes[0].isAppleCollision(apples[0].getApplePos())||snakes[0].isAppleCollision(apples[1].getApplePos())) {//P1 tocca la mela
 				snakes[0].incrementaPt();
 				snakes[0].incrementaLunghezza();
+				//controllo per capire quale delle 2 mele ha toccato
 				if(snakes[0].isAppleCollision(apples[0].getApplePos())) {
 					apples[0].genApple(fieldSize, cellSize, multiplayer);
 				}
@@ -101,9 +103,10 @@ public class SnakeMultiplayer {
 				return true;
 				
 			}
-			else if(snakes[1].isAppleCollision(apples[0].getApplePos())||snakes[1].isAppleCollision(apples[1].getApplePos())) {
+			else if(snakes[1].isAppleCollision(apples[0].getApplePos())||snakes[1].isAppleCollision(apples[1].getApplePos())) {//P2 tocca la mela
 				snakes[1].incrementaPt();
 				snakes[1].incrementaLunghezza();
+				//controllo per capire quale delle 2 mele ha toccato
 				if(snakes[1].isAppleCollision(apples[0].getApplePos())) {
 					apples[0].genApple(fieldSize, cellSize, multiplayer);
 				}
@@ -114,6 +117,7 @@ public class SnakeMultiplayer {
 			}
 			
 		}
+		//controllo se P1 tocca la mela
 		else if(snakes[0].isAppleCollision(apples[0].getApplePos())) {
 		snakes[0].incrementaPt();
 		snakes[0].incrementaLunghezza();
@@ -132,24 +136,24 @@ public class SnakeMultiplayer {
 				Point head2 = snakes[1].getCoordinate(0);
 				if (head1.equals(head2)) {
 		            giocoFinito = true;
-		            return 0;
+		            return 0;//P1 colpisce P2 e viceversa
 		        }
 				for (int i = 1; i < snakes[1].getLunghezza(); i++) {
 		            if (snakes[1].getCoordinate(i).equals(head1)) {
 		                giocoFinito = true;
-		                return 1; // P1 hit P2
+		                return 1; // P1 colpisce P2
 		            }
 		        }
 				for (int i = 1; i < snakes[1].getLunghezza(); i++) {
 		            if (snakes[1].getCoordinate(i).equals(head2)) {
 		                giocoFinito = true;
-		                return 2; // P2 hit itself
+		                return 2; // P2 si colpisce da solo
 		            }
 		        }
 				for (int i = 1; i < snakes[0].getLunghezza(); i++) {
 		            if (snakes[0].getCoordinate(i).equals(head2)) {
 		                giocoFinito = true;
-		                return 2; // P2 hit P1
+		                return 2; // P2 colpisce P1
 		            }
 		        }
 			}
@@ -160,11 +164,11 @@ public class SnakeMultiplayer {
 	        for (int i = 1; i < snakes[0].getLunghezza(); i++) {
 	            if (snakes[0].getCoordinate(i).equals(head1)) {
 	                giocoFinito = true;
-	                return 1; // P1 hit itself
+	                return 1; // P1 si colpisce da solo
 	            }
 	        }
 	        
-	        return 3; // no collision
+	        return 3; // nessuna collisione
 	}
 		
 		catch(Exception e)
@@ -172,7 +176,7 @@ public class SnakeMultiplayer {
 			return -1;
 		}
 	}
-	public void move(char c,char c2) {
+	public void move(char c,char c2) {//movimento
 		snakes[0].move(c,fieldSize,cellSize,multiplayer);
 		snakes[1].move(c2,fieldSize,cellSize,multiplayer);
 	}

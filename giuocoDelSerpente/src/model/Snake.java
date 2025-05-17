@@ -3,7 +3,6 @@ package model;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.awt.Point;
-import java.util.Random;
 
 public class Snake {
 	private ArrayList<Point> coordinateCorpo;
@@ -15,7 +14,7 @@ public class Snake {
 		this.coordinateCorpo = new ArrayList<Point>();
 		this.punteggio=0;
 	}
-	public void setLunghezzaIniziale(int n,int cellSize,int fieldSize,boolean p2) {
+	public void setLunghezzaIniziale(int n,int cellSize,int fieldSize,boolean p2) {//imposta lunghezza e posizione in base al player
 		this.coordinateCorpo.clear();
 		this.coordinateCorpo.trimToSize();
 		if(!p2) {
@@ -42,12 +41,12 @@ public class Snake {
 	
 
 
-	public Point getCoordinate(int i) {
+	public Point getCoordinate(int i) {//ritorna un punto specifico
 		return this.coordinateCorpo.get(i);
 	}
 
 
-	public int getLunghezza() {
+	public int getLunghezza() {//lunghezza serpente
 		return this.coordinateCorpo.size();
 	}
 
@@ -73,12 +72,12 @@ public class Snake {
 
 	public void move(char c,int fieldSize,int cellSize,boolean m) {
 				if(c!=' ') {
-					for (int i = this.coordinateCorpo.size() - 1; i > 0; i--) {
+					for (int i = this.coordinateCorpo.size() - 1; i > 0; i--) {//sposta il corpo del serpente dietro la testa
 						Point punto = this.coordinateCorpo.get(i - 1);
 						this.coordinateCorpo.get(i).setLocation(punto.x, punto.y);
 					}
 				}
-			int xSize=fieldSize;
+			int xSize=fieldSize;//per modalità multiplayer, estende la direzione orizzontale
 			if(m) {
 				xSize*=2;
 			}

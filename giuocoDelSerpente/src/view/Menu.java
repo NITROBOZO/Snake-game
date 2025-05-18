@@ -168,7 +168,7 @@ public class Menu extends JFrame {
 		btnColori.setBounds(410, 284, 89, 23);
 		contentPane.add(btnColori);
 		
-		areaField = new JTextField();
+		areaField = new JTextField(); //a
 		areaField.setText("20");
 		areaField.setColumns(10);
 		areaField.setBounds(450, 171, 33, 20);

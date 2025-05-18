@@ -14,8 +14,10 @@ public class SnakeMultiplayer {
 	private boolean start;
 	private int velocita;
 	private boolean multiplayer;
+	private int lastEaten;
 
 	public SnakeMultiplayer() {
+		lastEaten=2;
 		apples = new Apple[2];
 		snakes = new Snake[2];
 		for(int i=0;i<2;i++) {
@@ -95,9 +97,11 @@ public class SnakeMultiplayer {
 				snakes[0].incrementaLunghezza();
 				//controllo per capire quale delle 2 mele ha toccato
 				if(snakes[0].isAppleCollision(apples[0].getApplePos())) {
+					lastEaten=0;
 					apples[0].genApple(fieldSize, cellSize, multiplayer);
 				}
 				else {
+					lastEaten=1;
 					apples[1].genApple(fieldSize, cellSize, multiplayer);
 				}
 				return true;
@@ -108,9 +112,11 @@ public class SnakeMultiplayer {
 				snakes[1].incrementaLunghezza();
 				//controllo per capire quale delle 2 mele ha toccato
 				if(snakes[1].isAppleCollision(apples[0].getApplePos())) {
+					lastEaten=0;
 					apples[0].genApple(fieldSize, cellSize, multiplayer);
 				}
 				else {
+					lastEaten=1;
 					apples[1].genApple(fieldSize, cellSize, multiplayer);
 				}
 				return true;
@@ -119,6 +125,7 @@ public class SnakeMultiplayer {
 		}
 		//controllo se P1 tocca la mela
 		else if(snakes[0].isAppleCollision(apples[0].getApplePos())) {
+			lastEaten=0;
 		snakes[0].incrementaPt();
 		snakes[0].incrementaLunghezza();
 		apples[0].genApple(fieldSize, cellSize, multiplayer);
@@ -126,6 +133,29 @@ public class SnakeMultiplayer {
 		}
 		return false;
 			
+	}
+	public boolean isAppleCollision() {
+		//gestione collisioni con mela
+		if(multiplayer) {
+			if(snakes[0].isAppleCollision(apples[0].getApplePos())||snakes[0].isAppleCollision(apples[1].getApplePos())) {//P1 tocca la mela
+				return true;
+				
+			}
+			else if(snakes[1].isAppleCollision(apples[0].getApplePos())||snakes[1].isAppleCollision(apples[1].getApplePos())) {//P2 tocca la mela
+				return true;
+			}
+			
+		}
+		//controllo se P1 tocca la mela
+		else if(snakes[0].isAppleCollision(apples[0].getApplePos())) {
+		return true;
+		}
+		return false;
+	
+	}
+		
+	public int getLastEaten() {
+		return lastEaten;
 	}
 	public int controlloConflittoCorpo()
 	{
@@ -193,6 +223,7 @@ public class SnakeMultiplayer {
 		return snakes[i].getCoordinate(corpo);
 	}
 	public void reset() {
+		lastEaten=2;
 		apples[0].init();
 		apples[1].init();
 		snakes[0].init();

@@ -19,11 +19,16 @@ public class JPanel_ extends JPanel {
 	private JLabel lblPunti;
 	private JLabel lblGameOver;
 	private JButton btnRestart;
+	private int[] nIMG;
 
 	private static final long serialVersionUID = 1L;
 
 	public JLabel getLblPunti() {
 		return lblPunti;
+	}
+	
+	public int[] getNIMG() {
+		return nIMG;
 	}
 
 	public JLabel getLblGameOver() {
@@ -45,6 +50,9 @@ public class JPanel_ extends JPanel {
 	}
 
 	public JPanel_(SnakeMultiplayer snake) {
+		nIMG = new int[2];
+		nIMG[0]=0;
+		nIMG[1]=0;
 		lblGameOver = new JLabel("GAME OVER");
 		lblGameOver.setHorizontalAlignment(JLabel.CENTER);
 		lblGameOver.setFont(new Font("Unispace", Font.PLAIN, 80));
@@ -108,15 +116,13 @@ public class JPanel_ extends JPanel {
 					}
 				}
 			}
-			g.drawImage(APPLEIMG[1], snake.getApplePos(1).x, snake.getApplePos(1).y, snake.getCellSize(), snake.getCellSize(),
-				this);
-			if ((snake.getLunghezza(0)+snake.getLunghezza(1)) % 2 == 0) {
-				g.drawImage(APPLEIMG[1], snake.getApplePos(0).x, snake.getApplePos(0).y, snake.getCellSize(), snake.getCellSize(),
+			
+			// Get which apple was last eaten (0 or 1)
+			//se mangio mela 1, aggiorno solo mela 1, altrimenti aggiorno mela 2
+				g.drawImage(APPLEIMG[nIMG[0]], snake.getApplePos(0).x, snake.getApplePos(0).y, snake.getCellSize(), snake.getCellSize(),
 						this);
-			} else {
-				g.drawImage(APPLEIMG[0], snake.getApplePos(0).x, snake.getApplePos(0).y, snake.getCellSize(), snake.getCellSize(),
+				g.drawImage(APPLEIMG[nIMG[1]], snake.getApplePos(1).x, snake.getApplePos(1).y, snake.getCellSize(), snake.getCellSize(),
 						this);
-			}
 		}
 
 	}

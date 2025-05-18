@@ -61,6 +61,10 @@ public class Menu extends JFrame {
 	public JTextField getAreaField() {
 		return areaField;
 	}
+	public JButton getBtnColori() {
+		return btnColori;
+	}
+	
 	/**
 	 * Create the frame.
 	 */

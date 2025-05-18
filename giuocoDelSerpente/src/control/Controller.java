@@ -1,5 +1,6 @@
 package control;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -38,6 +39,7 @@ public class Controller implements ActionListener {
 		frame = new MyFrame(snake);
 		menu.setVisible(true);
 		frame.setVisible(false);
+		menu.getBtnColori().addActionListener(this);
 		menu.getBtnPlay().addActionListener(this);
 		menu.getCellField().addActionListener(this);
 		frame.getPanel().getBtnRestart().addActionListener(this);
@@ -120,7 +122,7 @@ public class Controller implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource()==menu.getBtnPlay()) {
+			if(e.getSource()==menu.getBtnPlay()) {
 		    // imposta parametri principali
 		    if(menu.getRdbt2Player().isSelected()) {
 		        snake.setMultiplayer(true);
@@ -178,6 +180,14 @@ public class Controller implements ActionListener {
 			snake.move(direction, directionP2);
 			frame.getContentPane().repaint();
 			if (snake.appleCollision()) {
+				int eaten = snake.getLastEaten();
+				int[] nIMG = frame.getPanel().getNIMG();
+					if(eaten==0||eaten==2) {
+						nIMG[0] = (int)(Math.random()+0.5);
+					}
+					else {
+						nIMG[1] = (int)(Math.random()+0.5);
+					}
 				frame.getPanel().getLblPunti().setText("SCORE: " + (snake.getPunteggio(0) + snake.getPunteggio(1)));
 			}
 			int n = snake.controlloConflittoCorpo();//restituisce il numero del giocatore che perde,0 se è pareggio

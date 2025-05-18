@@ -25,7 +25,7 @@ public class Controller implements ActionListener {
 			}
 		});
 	}
-
+	private ControllerInput controller = new ControllerInput();
 	private Timer timer;
 	private Menu menu;
 	private char direction = ' ';
@@ -34,6 +34,7 @@ public class Controller implements ActionListener {
 	private MyFrame frame;
 
 	public Controller() {
+		controller.start();
 		snake = new SnakeMultiplayer();
 		menu = new Menu();
 		frame = new MyFrame(snake);
@@ -122,6 +123,18 @@ public class Controller implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		if(controller.isDpadDown()) {
+			direction = 'S';
+		}
+		if(controller.isDpadUp()) {
+			direction = 'W';
+		}
+		if(controller.isDpadLeft()) {
+			direction = 'A';
+		}
+		if(controller.isDpadRight()) {
+			direction = 'D';
+		}
 			if(e.getSource()==menu.getBtnPlay()) {
 		    // imposta parametri principali
 		    if(menu.getRdbt2Player().isSelected()) {

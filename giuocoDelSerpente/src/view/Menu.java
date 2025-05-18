@@ -1,6 +1,5 @@
 package view;
 
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -11,13 +10,13 @@ import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 import java.awt.Color;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
+import javax.swing.JCheckBox;
 
 public class Menu extends JFrame {
 	private static final ImageIcon[] IMG = {new ImageIcon(Menu.class.getResource("/images/btnPlayStatic.png")),
@@ -25,22 +24,23 @@ public class Menu extends JFrame {
 											new ImageIcon(Menu.class.getResource("/images/btnPngS.png"))};
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JComboBox comboBox;
+	private JComboBox<String> comboBox;
 	private JLabel lblLunghezzaSnake;
 	private ButtonGroup buttonGroup;
 	private JButton btnPlay;
 	private JRadioButton rdbt1Player;
 	private JRadioButton rdbt2Player;
-	private JComboBox comboBoxVel;
+	private JComboBox<String> comboBoxVel;
 	private JTextField cellField;
 	private JTextField areaField;
 	private JButton btnColori;
+	private JCheckBox boxMuri;
 	
 
-	public JComboBox getComboBox() {
+	public JComboBox<String> getComboBox() {
 		return comboBox;
 	}
-	public JComboBox getComboBoxVel() {
+	public JComboBox<String> getComboBoxVel() {
 		return comboBoxVel;
 	}
 
@@ -64,7 +64,9 @@ public class Menu extends JFrame {
 	public JButton getBtnColori() {
 		return btnColori;
 	}
-	
+	public JCheckBox getBoxMuri() {
+		return boxMuri;
+	}
 	/**
 	 * Create the frame.
 	 */
@@ -126,7 +128,7 @@ public class Menu extends JFrame {
 		contentPane.add(btnPlay);
 		
 		comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5"}));
+		comboBox.setModel(new DefaultComboBoxModel<String>(new String[] {"1", "2", "3", "4", "5"}));
 		comboBox.setSelectedIndex(2);
 		comboBox.setBounds(225, 168, 39, 27);
 		contentPane.add(comboBox);
@@ -143,15 +145,15 @@ public class Menu extends JFrame {
 		lblVelocita.setBounds(301, 131, 65, 27);
 		contentPane.add(lblVelocita);
 		
-		comboBoxVel = new JComboBox();
-		comboBoxVel.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5"}));
+		comboBoxVel = new JComboBox<String>();
+		comboBoxVel.setModel(new DefaultComboBoxModel<String>(new String[] {"1", "2", "3", "4", "5"}));
 		comboBoxVel.setSelectedIndex(3);
 		comboBoxVel.setBounds(305, 168, 39, 27);
 		contentPane.add(comboBoxVel);
 		
 		cellField = new JTextField();
 		cellField.setText("20");
-		cellField.setBounds(377, 171, 33, 20);
+		cellField.setBounds(399, 171, 33, 20);
 		cellField.setColumns(10);
 		contentPane.add(cellField);
 		
@@ -159,7 +161,7 @@ public class Menu extends JFrame {
 		JLabel lblGrandezzaCelle = new JLabel("<html><center>Grandezza celle</center></html>");
 		lblGrandezzaCelle.setForeground(Color.WHITE);
 		lblGrandezzaCelle.setFont(new Font("Unispace", Font.PLAIN, 13));
-		lblGrandezzaCelle.setBounds(354, 133, 85, 39);
+		lblGrandezzaCelle.setBounds(375, 134, 85, 39);
 		contentPane.add(lblGrandezzaCelle);
 		
 		btnColori = new JButton("COLORI");
@@ -171,7 +173,7 @@ public class Menu extends JFrame {
 		areaField = new JTextField(); //a
 		areaField.setText("20");
 		areaField.setColumns(10);
-		areaField.setBounds(450, 171, 33, 20);
+		areaField.setBounds(470, 171, 33, 20);
 		contentPane.add(areaField);
 		
 		JLabel lblTitolo = new JLabel("SNAKE");
@@ -183,8 +185,15 @@ public class Menu extends JFrame {
 		
 		JLabel lblArea = new JLabel("Area");
 		lblArea.setForeground(Color.WHITE);
-		lblArea.setFont(new Font("Dialog", Font.PLAIN, 13));
-		lblArea.setBounds(447, 131, 79, 27);
+		lblArea.setFont(new Font("Unispace", Font.PLAIN, 13));
+		lblArea.setBounds(470, 131, 46, 27);
 		contentPane.add(lblArea);
+		
+		boxMuri = new JCheckBox("Muri");
+		boxMuri.setForeground(new Color(255, 255, 255));
+		boxMuri.setOpaque(false);
+		boxMuri.setFont(new Font("Unispace", Font.PLAIN, 20));
+		boxMuri.setBounds(78, 111, 97, 23);
+		contentPane.add(boxMuri);
 	}
 }

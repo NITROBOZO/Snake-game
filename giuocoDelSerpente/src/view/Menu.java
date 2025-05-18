@@ -11,14 +11,18 @@ import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 import java.awt.Color;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 
 public class Menu extends JFrame {
-
+	private static final ImageIcon[] IMG = {new ImageIcon(Menu.class.getResource("/images/btnPlayStatic.png")),
+											new ImageIcon(Menu.class.getResource("/images/btnPngM.png")),
+											new ImageIcon(Menu.class.getResource("/images/btnPngS.png"))};
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JComboBox comboBox;
@@ -72,6 +76,13 @@ public class Menu extends JFrame {
 		contentPane.setLayout(null);
 		
 		rdbt1Player = new JRadioButton("1 Player");
+		rdbt1Player.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(rdbt1Player.isSelected()) {
+					btnPlay.setRolloverIcon(IMG[2]);
+				}
+			}
+		});
 		rdbt1Player.setForeground(new Color(255, 255, 255));
 		rdbt1Player.setOpaque(false);
 		rdbt1Player.setFont(new Font("Unispace", Font.PLAIN, 20));
@@ -86,17 +97,28 @@ public class Menu extends JFrame {
 		rdbt2Player.setFont(new Font("Unispace", Font.PLAIN, 20));
 		rdbt2Player.setBounds(78, 167, 121, 21);
 		rdbt2Player.setFocusPainted(false);
+		rdbt2Player.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(rdbt2Player.isSelected()) {
+					btnPlay.setRolloverIcon(IMG[1]);
+				}
+			}
+		});
 		contentPane.add(rdbt2Player);
 		
 		buttonGroup = new ButtonGroup();
 		buttonGroup.add(rdbt1Player);
 		buttonGroup.add(rdbt2Player);
 		
-		btnPlay = new JButton("PLAY");
+		btnPlay = new JButton("");
 		btnPlay.setOpaque(false);
 		btnPlay.setFont(new Font("Unispace", Font.PLAIN, 50));
-		btnPlay.setBounds(154, 263, 212, 63);
+		btnPlay.setBounds(154, 254, 200, 80);
 		btnPlay.setFocusPainted(false);
+		btnPlay.setIcon(IMG[0]);
+		btnPlay.setRolloverIcon(IMG[2]);
+		btnPlay.setOpaque(false);
+		btnPlay.setRolloverEnabled(true);
 		contentPane.add(btnPlay);
 		
 		comboBox = new JComboBox();

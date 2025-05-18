@@ -13,8 +13,8 @@ import java.awt.Font;
 import javax.swing.JButton;
 
 public class JPanel_ extends JPanel {
-	private static Image[] APPLEIMG = { new ImageIcon(JPanel_.class.getResource("/view/AppleBitten.png")).getImage(),
-			new ImageIcon(JPanel_.class.getResource("/view/AppleNoBite.png")).getImage() };
+	private static Image[] APPLEIMG = { new ImageIcon(JPanel_.class.getResource("/images/AppleBitten.png")).getImage(),
+			new ImageIcon(JPanel_.class.getResource("/images/AppleNoBite.png")).getImage() };
 	private SnakeMultiplayer snake;
 	private JLabel lblPunti;
 	private JLabel lblGameOver;
@@ -47,10 +47,10 @@ public class JPanel_ extends JPanel {
 	public JPanel_(SnakeMultiplayer snake) {
 		lblGameOver = new JLabel("GAME OVER");
 		lblGameOver.setHorizontalAlignment(JLabel.CENTER);
-		lblGameOver.setFont(new Font("Unispace", Font.PLAIN, 77));
+		lblGameOver.setFont(new Font("Unispace", Font.PLAIN, 80));
 		lblGameOver.setForeground(new Color(255, 255, 255));
-		lblGameOver.setLocation(0, 158);
-		lblGameOver.setSize(600, 193);
+		lblGameOver.setLocation(0, 100);
+		lblGameOver.setSize(600, 190);
 		lblGameOver.setVisible(false);
 		add(lblGameOver);
 		this.snake = snake;
@@ -69,8 +69,8 @@ public class JPanel_ extends JPanel {
 		btnRestart.setBackground(new Color(255, 0, 0));
 		btnRestart.setFocusPainted(false);
 		btnRestart.setForeground(new Color(255, 0, 0));
-		btnRestart.setFont(new Font("Tahoma", Font.PLAIN, 77));
-		btnRestart.setBounds(68, 389, 468, 157);
+		btnRestart.setFont(new Font("Tahoma", Font.PLAIN, 80));
+		btnRestart.setBounds(68, 389, 468, 150);
 		btnRestart.setBorder(null);
 		add(btnRestart);
 

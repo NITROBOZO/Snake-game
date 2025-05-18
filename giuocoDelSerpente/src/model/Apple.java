@@ -10,12 +10,7 @@ public class Apple {
 	public Point genApple(int fieldSize,int cellSize,boolean multiplayer) {
 		int x=0;
 		int y=0;
-		if(multiplayer) {
-			x = random.nextInt(fieldSize*2) * cellSize;
-		}
-		else {
-			x = random.nextInt(fieldSize) * cellSize;
-		}
+		x = (multiplayer ? (random.nextInt(fieldSize*2) * cellSize) : (random.nextInt(fieldSize) * cellSize));
 		y = random.nextInt(fieldSize) * cellSize;
 		applePos.setLocation(x, y);
 		return applePos.getLocation();

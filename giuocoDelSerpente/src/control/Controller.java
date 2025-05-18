@@ -213,7 +213,7 @@ public class Controller implements ActionListener {
 					}
 
 				} else {
-					System.out.println("Game Over");
+					frame.getPanel().getLblGameOver().setText("GAME OVER");
 				}
 				timer.stop();
 			}

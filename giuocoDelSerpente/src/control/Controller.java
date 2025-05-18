@@ -123,16 +123,16 @@ public class Controller implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(controller.isDpadDown()) {
+		if(controller.isP1DpadDown()) {
 			direction = 'S';
 		}
-		if(controller.isDpadUp()) {
+		if(controller.isP1DpadUp()) {
 			direction = 'W';
 		}
-		if(controller.isDpadLeft()) {
+		if(controller.isP1DpadLeft()) {
 			direction = 'A';
 		}
-		if(controller.isDpadRight()) {
+		if(controller.isP1DpadRight()) {
 			direction = 'D';
 		}
 			if(e.getSource()==menu.getBtnPlay()) {

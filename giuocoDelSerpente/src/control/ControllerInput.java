@@ -5,21 +5,13 @@ import com.studiohartman.jamepad.ControllerState;
 
 public class ControllerInput {
 	ControllerManager controllers;
-	ControllerState input;
+	ControllerState inputP1;
+	ControllerState inputP2;
 	Thread t = new Thread(()->{
 		while (true) {
-            input = controllers.getState(0);  // First controller
-
-            if (input.isConnected) {
-                if (input.dpadDown) {
-                    System.out.println("down button is pressed!");
-                }
-            } else {
-                System.out.println("Controller not connected.");
-            }
-
-            }
-		});
+            inputP1 = controllers.getState(0);// First controller
+            inputP2 = controllers.getState(1);
+		}});
     public ControllerInput(){
         controllers = new ControllerManager();
         controllers.initSDLGamepad();  // Must call this first
@@ -28,16 +20,28 @@ public class ControllerInput {
     public void start() {
     	t.start();
     }
-    public boolean isDpadDown() {
-    	return input.dpadDown;
+    public boolean isP1DpadDown() {
+    	return inputP1.dpadDown;
     }
-    public boolean isDpadUp() {
-    	return input.dpadUp;
+    public boolean isP1DpadUp() {
+    	return inputP1.dpadUp;
     }
-    public boolean isDpadLeft() {
-    	return input.dpadLeft;
+    public boolean isP1DpadLeft() {
+    	return inputP1.dpadLeft;
     }
-    public boolean isDpadRight() {
-    	return input.dpadRight;
+    public boolean isP1DpadRight() {
+    	return inputP1.dpadRight;
+    }
+    public boolean isP2DpadDown() {
+    	return inputP2.dpadDown;
+    }
+    public boolean isP2DpadUp() {
+    	return inputP2.dpadUp;
+    }
+    public boolean isP2DpadLeft() {
+    	return inputP2.dpadLeft;
+    }
+    public boolean isP2DpadRight() {
+    	return inputP2.dpadRight;
     }
 }

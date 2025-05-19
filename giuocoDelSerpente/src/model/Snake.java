@@ -8,15 +8,17 @@ public class Snake {
 	private ArrayList<Point> coordinateCorpo;
 	private int punteggio;
 	private char lastChar;
-	public Snake()
+	
+	public Snake ()
 	{	
-		lastChar='p';
+		lastChar = ' ';
 		this.coordinateCorpo = new ArrayList<Point>();
-		this.punteggio=0;
+		this.punteggio = 0;
 	}
-	public void setLunghezzaIniziale(int n,int cellSize,int fieldSize,boolean p2) {//imposta lunghezza e posizione in base al player
+	public void setLunghezzaIniziale (int n,int cellSize,int fieldSize,boolean p2) {//imposta lunghezza e posizione in base al player
 		this.coordinateCorpo.clear();
 		this.coordinateCorpo.trimToSize();
+		
 		if(!p2) {
 			for (int i = 0; i < n; i++) {
 				this.coordinateCorpo.add(new Point(i * cellSize, 0));
@@ -34,23 +36,23 @@ public class Snake {
 		
 
 
-	public void init()
+	public void init ()
 	{
 		this.punteggio=0;
 	}
 	
 
 
-	public Point getCoordinate(int i) {//ritorna un punto specifico
+	public Point getCoordinate (int i) {//ritorna un punto specifico
 		return this.coordinateCorpo.get(i);
 	}
 
 
-	public int getLunghezza() {//lunghezza serpente
+	public int getLunghezza () {//lunghezza serpente
 		return this.coordinateCorpo.size();
 	}
 
-	public boolean addPunto(int x, int y) {
+	public boolean addPunto (int x, int y) {
 		try {
 			this.coordinateCorpo.add(new Point(x, y));
 			return true;

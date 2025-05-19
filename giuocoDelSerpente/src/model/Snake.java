@@ -15,8 +15,9 @@ public class Snake {
 		this.coordinateCorpo = new ArrayList<Point>();
 		this.punteggio = 0;
 	}
-	
-	public void setLunghezzaIniziale (int n,int cellSize,int fieldSize,boolean p2) {//imposta lunghezza e posizione in base al player
+
+	// OMPOSTA LUNGHEZZA E POSIZIONE IN BASE AL PLAYER
+	public void setLunghezzaIniziale (int n,int cellSize,int fieldSize,boolean p2) {
 		this.coordinateCorpo.clear();
 		this.coordinateCorpo.trimToSize();
 		

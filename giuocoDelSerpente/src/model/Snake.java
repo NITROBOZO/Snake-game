@@ -72,16 +72,18 @@ public class Snake {
 		}
 	}
 
-	public void move(char c,int fieldSize,int cellSize,boolean m) {
-				if(c!=' ') {
-					for (int i = this.coordinateCorpo.size() - 1; i > 0; i--) {//sposta il corpo del serpente dietro la testa
-						Point punto = this.coordinateCorpo.get(i - 1);
-						this.coordinateCorpo.get(i).setLocation(punto.x, punto.y);
-					}
+	public void move (char c, int fieldSize, int cellSize, boolean m) {
+			if(c != ' ') {
+				for (int i = this.coordinateCorpo.size() - 1; i > 0; i--) {//sposta il corpo del serpente dietro la testa
+					Point punto = this.coordinateCorpo.get(i - 1);
+					this.coordinateCorpo.get(i).setLocation(punto.x, punto.y);
 				}
-			int xSize=fieldSize;//per modalità multiplayer, estende la direzione orizzontale
-			if(m) {
-				xSize*=2;
+			}
+		
+			int xSize = fieldSize;//per modalità multiplayer, estende la direzione orizzontale
+		
+			if (m) {
+				xSize *= 2;
 			}
 
 			if ((c == "W" && this.lastChar == 'S') || (c == 'S' && this.lastChar == 'W') || (c == 'A' && this.lastChar == 'D') || (c == 'D' && this.lastChar == 'A') || this.lastChar == ' ') {
@@ -115,18 +117,22 @@ public class Snake {
 			}
 			}
 		}
-	public boolean isAppleCollision(Point apple) {
+	
+	public boolean isAppleCollision (Point apple) {
 		if(this.coordinateCorpo.get(0).equals(apple)) {
 			return true;
 		}
 		return false;
 	}
-	public int getPunteggio() {
+	
+	public int getPunteggio () {
 		return punteggio;
 	}
-	public void incrementaPt() {
+	
+	public void incrementaPt () {
 		punteggio++;
 	}
+	
 	public void incrementaLunghezza() {
 		this.coordinateCorpo.add(new Point(999999,999999));
 	}

@@ -15,6 +15,7 @@ public class Snake {
 		this.coordinateCorpo = new ArrayList<Point>();
 		this.punteggio = 0;
 	}
+	
 	public void setLunghezzaIniziale (int n,int cellSize,int fieldSize,boolean p2) {//imposta lunghezza e posizione in base al player
 		this.coordinateCorpo.clear();
 		this.coordinateCorpo.trimToSize();
@@ -32,22 +33,17 @@ public class Snake {
 				
 			}
 		}
-		}
-		
-
+	}
 
 	public void init ()
 	{
 		this.punteggio=0;
 	}
-	
-
 
 	public Point getCoordinate (int i) {//ritorna un punto specifico
 		return this.coordinateCorpo.get(i);
 	}
-
-
+	
 	public int getLunghezza () {//lunghezza serpente
 		return this.coordinateCorpo.size();
 	}
@@ -60,8 +56,6 @@ public class Snake {
 			return false;
 		}
 	}
-
-
 
 	public boolean addPunto(Point punto) {
 		try {

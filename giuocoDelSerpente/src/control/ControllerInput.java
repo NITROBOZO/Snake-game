@@ -20,6 +20,9 @@ public class ControllerInput {
     public void start() {
     	t.start();
     }
+    public boolean isConnected() {
+    	return inputP1.isConnected;
+    }
     public boolean isP1DpadDown() {
     	return inputP1.dpadDown;
     }

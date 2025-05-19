@@ -49,7 +49,7 @@ public class Controller implements ActionListener {
 			public void keyPressed(KeyEvent e) {
 				char c = Character.toUpperCase(e.getKeyChar());
 				
-				if (snake.isMultiplayer()) {//scegli a quale giocatore assegnare i tasti, singleplayer, tutti a p1, 
+				if (snake.isMultiplayer()) {
 					switch (e.getKeyCode()) {//multiplayer WASD a p1, IJKL e le frecciette a p2
 					case KeyEvent.VK_DOWN: {
 						c = 'K';
@@ -124,16 +124,16 @@ public class Controller implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(controller.isP1DpadDown()) {
-			direction = 'S';
+			directionP2 = 'S';
 		}
 		if(controller.isP1DpadUp()) {
-			direction = 'W';
+			directionP2 = 'W';
 		}
 		if(controller.isP1DpadLeft()) {
-			direction = 'A';
+			directionP2 = 'A';
 		}
 		if(controller.isP1DpadRight()) {
-			direction = 'D';
+			directionP2 = 'D';
 		}
 			if(e.getSource()==menu.getBtnPlay()) {
 		    // imposta parametri principali
@@ -151,14 +151,14 @@ public class Controller implements ActionListener {
 		    try {
 		        String str = menu.getAreaField().getText();
 		        int n = Integer.valueOf(str.replaceAll("[^0-9]", ""));
-		        snake.setFieldSize(n > 40 || n < 10 ? 40 : n);
+		        snake.setFieldSize(n > 120 || n < 10 ? 40 : n);
 		    } catch (NumberFormatException e1) {
 		        snake.setFieldSize(40);
 		    }
 		    try {
 		        String str = menu.getCellField().getText();
 		        int n = Integer.valueOf(str.replaceAll("[^0-9]", ""));
-		        snake.setCellSize(n > 40 || n < 10 ? 40 : n);
+		        snake.setCellSize(n > 40 || n < 5 ? 40 : n);
 		    } catch (NumberFormatException e1) {
 		        snake.setCellSize(40);
 		    }
@@ -204,12 +204,14 @@ public class Controller implements ActionListener {
 				frame.getPanel().getLblPunti().setText("SCORE: " + (snake.getPunteggio(0) + snake.getPunteggio(1)));
 			}
 			int n = snake.controlloConflittoCorpo();//restituisce il numero del giocatore che perde,0 se è pareggio
-
+			
 			if (snake.isGiocoFinito()) {
+				timer.stop();
 				//messaggi di vincita
 				frame.getPanel().getLblGameOver().setVisible(true);
 				frame.getPanel().getBtnRestart().setVisible(true);
 				if (snake.isMultiplayer()) {
+					System.out.println(n);
 					switch (n) {
 					case 1: {
 						frame.getPanel().getLblGameOver().setText("<html><center>VINCE GIOCATORE 2<center></html>");
@@ -228,7 +230,6 @@ public class Controller implements ActionListener {
 				} else {
 					frame.getPanel().getLblGameOver().setText("GAME OVER");
 				}
-				timer.stop();
 			}
 
 		}

@@ -128,7 +128,7 @@ public class Menu extends JFrame {
 		contentPane.add(btnPlay);
 		
 		comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel<String>(new String[] {"1", "2", "3", "4", "5"}));
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19"}));
 		comboBox.setSelectedIndex(2);
 		comboBox.setBounds(225, 168, 39, 27);
 		contentPane.add(comboBox);

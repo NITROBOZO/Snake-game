@@ -81,7 +81,12 @@ public class Snake {
 			if(m) {
 				xSize*=2;
 			}
-			switch (c) {
+
+			if ((c == "W" && this.lastChar == 'S') || (c == 'S' && this.lastChar == 'W') || (c == 'A' && this.lastChar == 'D') || (c == 'D' && this.lastChar == 'A') || this.lastChar == ' ') {
+				this.lastChar = c;
+			}
+		
+			switch (this.lastChar) {
 			case 'W': {
 				if (this.coordinateCorpo.get(0).y != 0 ) {
 					this.coordinateCorpo.get(0).y = coordinateCorpo.get(0).y - cellSize;
@@ -107,7 +112,6 @@ public class Snake {
 				break;
 			}
 			}
-			lastChar=c;
 		}
 	public boolean isAppleCollision(Point apple) {
 		if(this.coordinateCorpo.get(0).equals(apple)) {

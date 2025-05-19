@@ -7,10 +7,10 @@ public class Apple {
 	private final static Random random = new Random();
 	private Point applePos = new Point(99999,99999);
 	
-	public Point genApple(int fieldSize,int cellSize,boolean multiplayer) {
+	public Point genApple (int fieldSize,int cellSize,boolean multiplayer) {
 		int x=0;
 		int y=0;
-		x = (multiplayer ? (random.nextInt(fieldSize*2) * cellSize) : (random.nextInt(fieldSize) * cellSize));
+		x = (multiplayer ? (random.nextInt(fieldSize * 2) * cellSize) : (random.nextInt(fieldSize) * cellSize));
 		y = random.nextInt(fieldSize) * cellSize;
 		applePos.setLocation(x, y);
 		return applePos.getLocation();

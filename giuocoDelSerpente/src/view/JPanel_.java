@@ -20,9 +20,13 @@ public class JPanel_ extends JPanel {
 	private JLabel lblGameOver;
 	private JButton btnRestart;
 	private int[] nIMG;
+	private Color[] colors;
 
 	private static final long serialVersionUID = 1L;
 
+	public void setColors(Color[] c) {
+		colors=c;
+	}
 	public JLabel getLblPunti() {
 		return lblPunti;
 	}
@@ -50,6 +54,11 @@ public class JPanel_ extends JPanel {
 	}
 
 	public JPanel_(SnakeMultiplayer snake) {
+		colors = new Color[4];
+		colors[0]=Color.red;
+		colors[1]=Color.green;
+		colors[2]=Color.blue;
+		colors[3]=Color.cyan;
 		nIMG = new int[2];
 		nIMG[0]=0;
 		nIMG[1]=0;
@@ -86,6 +95,8 @@ public class JPanel_ extends JPanel {
 
 	@Override
 	protected void paintComponent(Graphics g) {
+		
+		
 		if (snake.isStart()) {
 			super.paintComponent(g);
 			/*for (int i = 0; i <= (snake.FIELD_SIZE + 1) * snake.UNIT_SIZE; i += snake.UNIT_SIZE) {
@@ -95,24 +106,22 @@ public class JPanel_ extends JPanel {
 			}*/
 			for (int i = 0; i < snake.getLunghezza(0); i++) {
 				if (i == 0) {
-					g.setColor(Color.red);
+					g.setColor(colors[0]);
 				} else {
-					g.setColor(Color.green);
+					g.setColor(colors[1]);
 				}
 				g.fillRect(snake.getCoordinate(0,i).x, snake.getCoordinate(0,i).y, snake.getCellSize(), snake.getCellSize());
-				g.setColor(Color.red);
-				g.fillRect(snake.getCoordinate(0,0).x, snake.getCoordinate(0,0).y, snake.getCellSize(), snake.getCellSize());
+				
 			}
 				if(snake.isMultiplayer()) {
 					for(int j = 0; j < snake.getLunghezza(1); j++) {
 						if (j == 0) {
-							g.setColor(Color.blue);
+							g.setColor(colors[2]);
 						} else {
-							g.setColor(Color.cyan);
+							g.setColor(colors[3]);
 						}
 						g.fillRect(snake.getCoordinate(1,j).x, snake.getCoordinate(1,j).y, snake.getCellSize(), snake.getCellSize());
-						g.setColor(Color.blue);
-						g.fillRect(snake.getCoordinate(1,0).x, snake.getCoordinate(1,0).y, snake.getCellSize(), snake.getCellSize());
+						
 					}
 				}
 			}
@@ -124,5 +133,7 @@ public class JPanel_ extends JPanel {
 				g.drawImage(APPLEIMG[nIMG[1]], snake.getApplePos(1).x, snake.getApplePos(1).y, snake.getCellSize(), snake.getCellSize(),
 						this);
 		}
+		
+	
 
 	}

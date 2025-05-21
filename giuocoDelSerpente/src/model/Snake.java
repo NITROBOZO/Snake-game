@@ -18,6 +18,7 @@ public class Snake {
 
 	// OMPOSTA LUNGHEZZA E POSIZIONE IN BASE AL PLAYER
 	public void setLunghezzaIniziale (int n,int cellSize,int fieldSize,boolean p2) {
+		this.lastChar = ' ';
 		this.coordinateCorpo.clear();
 		this.coordinateCorpo.trimToSize();
 		
@@ -81,7 +82,7 @@ public class Snake {
 				xSize *= 2;
 			}
 
-			if ((c == "W" && this.lastChar == 'S') || (c == 'S' && this.lastChar == 'W') || (c == 'A' && this.lastChar == 'D') || (c == 'D' && this.lastChar == 'A') || this.lastChar == ' ') {
+			if ((c == 'W' && this.lastChar != 'S') || (c == 'S' && this.lastChar != 'W') || (c == 'A' && this.lastChar != 'D') || (c == 'D' && this.lastChar != 'A') || this.lastChar == ' ') {
 				this.lastChar = c;
 			}
 		

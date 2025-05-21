@@ -18,7 +18,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 import javax.swing.JCheckBox;
 
-public class Menu extends JFrame {
+public class Menu extends JFrame implements ActionListener{
 	private static final ImageIcon[] IMG = {new ImageIcon(Menu.class.getResource("/images/btnPlayStatic.png")),
 											new ImageIcon(Menu.class.getResource("/images/btnPngM.png")),
 											new ImageIcon(Menu.class.getResource("/images/btnPngS.png"))};
@@ -35,8 +35,15 @@ public class Menu extends JFrame {
 	private JTextField areaField;
 	private JButton btnColori;
 	private JCheckBox boxMuri;
+	private FrameColori windowC;
+	private Color[] colors;
+	
+	
 	
 
+	public Color[] getColori() {
+		return colors;
+	}
 	public JComboBox<String> getComboBox() {
 		return comboBox;
 	}
@@ -71,6 +78,12 @@ public class Menu extends JFrame {
 	 * Create the frame.
 	 */
 	public Menu() {
+		colors = new Color[4];
+		colors[0]=Color.red;
+		colors[1]=Color.green;
+		colors[2]=Color.blue;
+		colors[3]=Color.cyan;
+		windowC = new FrameColori();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 542, 444);
 		setLocationRelativeTo(null);
@@ -165,7 +178,16 @@ public class Menu extends JFrame {
 		contentPane.add(lblGrandezzaCelle);
 		
 		btnColori = new JButton("COLORI");
-		btnColori.setOpaque(false);
+		btnColori.setContentAreaFilled(true);
+		btnColori.setBackground(new Color(255, 255, 255));
+		btnColori.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				windowC.setVisible(true);
+				setVisible(false);
+				
+			}
+		});
+		btnColori.setOpaque(true);
 		btnColori.setFocusPainted(false);
 		btnColori.setBounds(410, 284, 89, 23);
 		contentPane.add(btnColori);
@@ -194,6 +216,17 @@ public class Menu extends JFrame {
 		boxMuri.setOpaque(false);
 		boxMuri.setFont(new Font("Unispace", Font.PLAIN, 20));
 		boxMuri.setBounds(78, 111, 97, 23);
+		boxMuri.setFocusPainted(false);
 		contentPane.add(boxMuri);
+		windowC.getOkButton().addActionListener(this);
+		windowC.getCancelButton().addActionListener(this);
 	}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource()==windowC.getOkButton()) {
+			colors = windowC.getColors();
+		}
+		setVisible(true);
+	}
+	
 }

@@ -172,7 +172,7 @@ public class Controller implements ActionListener {
 			try {
 				String str = menu.getAreaField().getText();
 				int n = Integer.valueOf(str.replaceAll("[^0-9]", ""));
-				snake.setFieldSize(n > 120 || n < 10 ? 40 : n);
+				snake.setFieldSize(n > 80 || n < 10 ? 40 : n);
 			} catch (NumberFormatException e1) {
 				snake.setFieldSize(40);
 			}

@@ -13,18 +13,7 @@ import view.MyFrame;
 import view.Menu;
 
 public class Controller implements ActionListener {
-	public static void main(String[] args) {
-		System.out.println("Hello World");
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					new Controller();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+
 
 	private ControllerInput controller = new ControllerInput();
 	private Timer timer;

@@ -58,10 +58,11 @@ public class FrameColori extends JDialog {
 	 * Create the dialog.
 	 */
 	public FrameColori() {
+		setResizable(false);
 		colors = new Color[4];
 		colors[0]=Color.red;
-		colors[1]=Color.green;
-		colors[2]=Color.blue;
+		colors[1]=Color.blue;
+		colors[2]=Color.green;
 		colors[3]=Color.cyan;
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
@@ -75,6 +76,7 @@ public class FrameColori extends JDialog {
 		contentPanel.setLayout(gbl_contentPanel);
 		
 		JCheckBox testaP1 = new JCheckBox("Testa P1");
+		testaP1.setForeground(new Color(255, 255, 255));
 		testaP1.setFocusPainted(false);
 		GridBagConstraints gbc_testaP1 = new GridBagConstraints();
 		gbc_testaP1.anchor = GridBagConstraints.NORTHWEST;
@@ -84,6 +86,7 @@ public class FrameColori extends JDialog {
 		contentPanel.add(testaP1, gbc_testaP1);
 		
 		JCheckBox testaP2 = new JCheckBox("Testa P2");
+		testaP2.setForeground(new Color(255, 255, 255));
 		testaP2.setFocusPainted(false);
 		GridBagConstraints gbc_testaP2 = new GridBagConstraints();
 		gbc_testaP2.anchor = GridBagConstraints.NORTHWEST;
@@ -93,6 +96,7 @@ public class FrameColori extends JDialog {
 		contentPanel.add(testaP2, gbc_testaP2);
 		
 		JCheckBox corpoP1 = new JCheckBox("Corpo P1");
+		corpoP1.setForeground(new Color(255, 255, 255));
 		corpoP1.setFocusPainted(false);
 		GridBagConstraints gbc_corpoP1 = new GridBagConstraints();
 		gbc_corpoP1.anchor = GridBagConstraints.NORTHWEST;
@@ -102,6 +106,7 @@ public class FrameColori extends JDialog {
 		contentPanel.add(corpoP1, gbc_corpoP1);
 		
 		JCheckBox corpoP2 = new JCheckBox("Corpo P2");
+		corpoP2.setForeground(new Color(255, 255, 255));
 		corpoP2.setFocusPainted(false);
 		GridBagConstraints gbc_corpoP2 = new GridBagConstraints();
 		gbc_corpoP2.anchor = GridBagConstraints.NORTHWEST;
@@ -149,8 +154,8 @@ public class FrameColori extends JDialog {
 		btnReset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				colors[0]=Color.red;
-				colors[1]=Color.green;
-				colors[2]=Color.blue;
+				colors[1]=Color.blue;
+				colors[2]=Color.green;
 				colors[3]=Color.cyan;
 				testaP1.setBackground(colors[0]);
 				testaP2.setBackground(colors[1]);

@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Point;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -21,9 +22,7 @@ public class JPanel_ extends JPanel {
 	private JButton btnRestart;
 	private int[] nIMG;
 	private Color[] colors;
-
 	private static final long serialVersionUID = 1L;
-
 	public void setColors(Color[] c) {
 		colors=c;
 	}
@@ -108,19 +107,19 @@ public class JPanel_ extends JPanel {
 				if (i == 0) {
 					g.setColor(colors[0]);
 				} else {
-					g.setColor(colors[1]);
+					g.setColor(colors[2]);
 				}
-				g.fillRect(snake.getCoordinate(0,i).x, snake.getCoordinate(0,i).y, snake.getCellSize(), snake.getCellSize());
+				g.fillRect(snake.getCoordinate(0,i).x + p.x, snake.getCoordinate(0,i).y + p.y, snake.getCellSize(), snake.getCellSize());
 				
 			}
 				if(snake.isMultiplayer()) {
 					for(int j = 0; j < snake.getLunghezza(1); j++) {
 						if (j == 0) {
-							g.setColor(colors[2]);
+							g.setColor(colors[1]);
 						} else {
 							g.setColor(colors[3]);
 						}
-						g.fillRect(snake.getCoordinate(1,j).x, snake.getCoordinate(1,j).y, snake.getCellSize(), snake.getCellSize());
+						g.fillRect(snake.getCoordinate(1,j).x + p.x, snake.getCoordinate(1,j).y + p.y, snake.getCellSize(), snake.getCellSize());
 						
 					}
 				}

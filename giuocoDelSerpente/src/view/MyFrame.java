@@ -30,6 +30,7 @@ public class MyFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public MyFrame(SnakeMultiplayer snake) {
+		setResizable(false);
 		addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentResized(ComponentEvent e) {

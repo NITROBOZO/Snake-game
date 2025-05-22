@@ -78,10 +78,11 @@ public class Menu extends JFrame implements ActionListener{
 	 * Create the frame.
 	 */
 	public Menu() {
+		setResizable(false);
 		colors = new Color[4];
 		colors[0]=Color.red;
-		colors[1]=Color.green;
-		colors[2]=Color.blue;
+		colors[1]=Color.blue;
+		colors[2]=Color.green;
 		colors[3]=Color.cyan;
 		windowC = new FrameColori();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

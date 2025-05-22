@@ -2,6 +2,8 @@ package control;
 
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -29,7 +31,7 @@ public class Controller implements ActionListener {
 		menu = new Menu();
 		frame = new MyFrame(snake);
 		menu.setVisible(true);
-		frame.setVisible(false);
+		frame.dispose();
 		menu.getBtnColori().addActionListener(this);
 		menu.getBtnPlay().addActionListener(this);
 		menu.getCellField().addActionListener(this);
@@ -143,6 +145,8 @@ public class Controller implements ActionListener {
 		}
 
 		if (e.getSource() == menu.getBtnPlay()) {
+			GraphicsDevice g = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+			g.setFullScreenWindow(frame);
 			
 			frame.getPanel().setColors(menu.getColori());
 			frame.getPanel().getLblGameOver().setText("");
@@ -194,7 +198,7 @@ public class Controller implements ActionListener {
 			timer.restart();
 		} else if (e.getSource() == frame.getPanel().getBtnRestart()) {
 			menu.setVisible(true);
-			frame.setVisible(false);
+			frame.dispose();
 			frame.getPanel().getLblGameOver().setVisible(false);
 			frame.getPanel().getBtnRestart().setVisible(false);
 			frame.getPanel().getLblPunti().setText("SCORE: " + 0);

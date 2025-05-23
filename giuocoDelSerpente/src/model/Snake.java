@@ -31,7 +31,7 @@ public class Snake {
 			Collections.reverse(coordinateCorpo);
 		}
 		else {
-			for (int i = ((fieldSize * 2 + 1) - n); i < (fieldSize * 2 + 1); i++) {
+			for (int i = (((int)(fieldSize * 1.7 + 1) - n)); i < ((int)(fieldSize * 1.7) + 1); i++) {
 				this.coordinateCorpo.add(new Point(i * cellSize, 0));
 				
 			}

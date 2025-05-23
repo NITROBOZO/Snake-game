@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.awt.Point;
 
 public class Snake {
+	public static final double MPCONST = 1.7;
 	private ArrayList<Point> coordinateCorpo;
 	private int punteggio;
 	private char lastChar;
@@ -79,7 +80,7 @@ public class Snake {
 			int xSize = fieldSize;//per modalità multiplayer, estende la direzione orizzontale
 		
 			if (m) {
-				xSize *= 2;
+				xSize= (int)(xSize * MPCONST);
 			}
 
 			if ((c == 'W' && this.lastChar != 'S') || (c == 'S' && this.lastChar != 'W') || (c == 'A' && this.lastChar != 'D') || (c == 'D' && this.lastChar != 'A') || this.lastChar == ' ') {

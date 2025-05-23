@@ -1,10 +1,12 @@
 package control;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -35,7 +37,6 @@ public class Controller implements ActionListener {
 		frame.dispose();
 		menu.getBtnColori().addActionListener(this);
 		menu.getBtnPlay().addActionListener(this);
-		menu.getCellField().addActionListener(this);
 		frame.getPanel().getBtnRestart().addActionListener(this);
 		snake.setLunghezzaIniziale(1);
 		frame.getContentPane().addKeyListener(new KeyAdapter() {
@@ -146,7 +147,19 @@ public class Controller implements ActionListener {
 		}
 
 		if (e.getSource() == menu.getBtnPlay()) {
-			frame.getPanel().setPoint(new Point(200,400));
+			if(menu.getChckbxFullscreen().isSelected()) {
+				Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+				frame.setPreferredSize(screenSize);
+				frame.setUndecorated(true);
+				if(menu.getRdbt1Player().isSelected()) {
+					frame.getPanel().setPoint(new Point(screenSize.width/5,0));
+				}
+				
+			}
+			else {
+				frame.getPanel().setPoint(new Point(0,0));
+			}
+			
 			
 			frame.getPanel().setColors(menu.getColori());
 			frame.getPanel().getLblGameOver().setText("");
@@ -165,17 +178,12 @@ public class Controller implements ActionListener {
 			try {
 				String str = menu.getAreaField().getText();
 				int n = Integer.valueOf(str.replaceAll("[^0-9]", ""));
-				snake.setFieldSize(n > 80 || n < 10 ? 40 : n);
+				snake.setFieldSize(n > 120 || n < 10 ? 40 : n);
 			} catch (NumberFormatException e1) {
 				snake.setFieldSize(40);
 			}
-			try {
-				String str = menu.getCellField().getText();
-				int n = Integer.valueOf(str.replaceAll("[^0-9]", ""));
-				snake.setCellSize(n > 40 || n < 5 ? 40 : n);
-			} catch (NumberFormatException e1) {
-				snake.setCellSize(40);
-			}
+				snake.setCellSize((int) menu.getSelectedResolution().y/Integer.valueOf(menu.getAreaField().getText()));
+			
 
 			// inizializza il serpente
 			snake.reset();

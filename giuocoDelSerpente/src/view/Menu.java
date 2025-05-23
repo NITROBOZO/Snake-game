@@ -6,6 +6,9 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.Point;
+import java.awt.Toolkit;
+
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -13,6 +16,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 import java.awt.Color;
+import java.awt.Dimension;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
@@ -31,12 +36,13 @@ public class Menu extends JFrame implements ActionListener{
 	private JRadioButton rdbt1Player;
 	private JRadioButton rdbt2Player;
 	private JComboBox<String> comboBoxVel;
-	private JTextField cellField;
 	private JTextField areaField;
 	private JButton btnColori;
 	private JCheckBox boxMuri;
 	private FrameColori windowC;
 	private Color[] colors;
+	private JCheckBox chckbxFullscreen;
+	private JComboBox<String> comboBoxResolution;
 	
 	
 	
@@ -50,6 +56,19 @@ public class Menu extends JFrame implements ActionListener{
 	public JComboBox<String> getComboBoxVel() {
 		return comboBoxVel;
 	}
+	public Point getSelectedResolution() {
+		if(chckbxFullscreen.isSelected()) {
+			Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+			return new Point(screenSize.width,screenSize.height);
+		}
+		String str = (String) comboBoxResolution.getSelectedItem();
+		String[] strs = str.split("x");
+		int[] n = new int[2];
+		for(int i=0;i<2;i++) {
+			n[i]=Integer.valueOf(strs[i]);
+		}
+		return new Point(n[0],n[1]);
+	}
 
 	public JButton getBtnPlay() {
 		return btnPlay;
@@ -62,9 +81,6 @@ public class Menu extends JFrame implements ActionListener{
 	public JRadioButton getRdbt2Player() {
 		return rdbt2Player;
 	}
-	public JTextField getCellField() {
-		return cellField;
-	}
 	public JTextField getAreaField() {
 		return areaField;
 	}
@@ -73,6 +89,9 @@ public class Menu extends JFrame implements ActionListener{
 	}
 	public JCheckBox getBoxMuri() {
 		return boxMuri;
+	}
+	public JCheckBox getChckbxFullscreen() {
+		return chckbxFullscreen;
 	}
 	/**
 	 * Create the frame.
@@ -165,18 +184,12 @@ public class Menu extends JFrame implements ActionListener{
 		comboBoxVel.setBounds(305, 168, 39, 27);
 		contentPane.add(comboBoxVel);
 		
-		cellField = new JTextField();
-		cellField.setText("20");
-		cellField.setBounds(399, 171, 33, 20);
-		cellField.setColumns(10);
-		contentPane.add(cellField);
 		
-		
-		JLabel lblGrandezzaCelle = new JLabel("<html><center>Grandezza celle</center></html>");
-		lblGrandezzaCelle.setForeground(Color.WHITE);
-		lblGrandezzaCelle.setFont(new Font("Unispace", Font.PLAIN, 13));
-		lblGrandezzaCelle.setBounds(375, 134, 85, 39);
-		contentPane.add(lblGrandezzaCelle);
+		JLabel lblRisoluzione = new JLabel("<html><center>Risoluzione</center></html>");
+		lblRisoluzione.setForeground(Color.WHITE);
+		lblRisoluzione.setFont(new Font("Unispace", Font.PLAIN, 13));
+		lblRisoluzione.setBounds(375, 134, 97, 39);
+		contentPane.add(lblRisoluzione);
 		
 		btnColori = new JButton("COLORI");
 		btnColori.setContentAreaFilled(true);
@@ -219,9 +232,29 @@ public class Menu extends JFrame implements ActionListener{
 		boxMuri.setBounds(78, 111, 97, 23);
 		boxMuri.setFocusPainted(false);
 		contentPane.add(boxMuri);
+		
+		chckbxFullscreen = new JCheckBox("Fullscreen");
+		chckbxFullscreen.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+			}
+		});
+		chckbxFullscreen.setOpaque(false);
+		chckbxFullscreen.setForeground(Color.WHITE);
+		chckbxFullscreen.setFont(new Font("Unispace", Font.PLAIN, 20));
+		chckbxFullscreen.setFocusPainted(false);
+		chckbxFullscreen.setBounds(78, 85, 155, 23);
+		contentPane.add(chckbxFullscreen);
+		
+		comboBoxResolution = new JComboBox();
+		comboBoxResolution.setModel(new DefaultComboBoxModel(new String[] {"1920x1080", "1600x900", "1280x720", "960×540"}));
+		comboBoxResolution.setBounds(385, 170, 65, 22);
+		contentPane.add(comboBoxResolution);
 		windowC.getOkButton().addActionListener(this);
 		windowC.getCancelButton().addActionListener(this);
 	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==windowC.getOkButton()) {
@@ -229,5 +262,4 @@ public class Menu extends JFrame implements ActionListener{
 		}
 		setVisible(true);
 	}
-	
 }

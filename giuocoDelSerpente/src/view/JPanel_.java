@@ -47,7 +47,7 @@ public class JPanel_ extends JPanel {
 	}
 	public void updatePrefSize() {
 		if(snake.isMultiplayer()) {
-			setPreferredSize(new Dimension((snake.getFieldSize()*2)*snake.getCellSize() + snake.getCellSize(), snake.getFieldSize()*snake.getCellSize() + snake.getCellSize()));
+			setPreferredSize(new Dimension((int)(snake.getFieldSize()*1.7)*snake.getCellSize() + snake.getCellSize(), snake.getFieldSize()*snake.getCellSize() + snake.getCellSize()));
 		}
 		else {
 			setPreferredSize(new Dimension(snake.getFieldSize()*snake.getCellSize() + snake.getCellSize(), snake.getFieldSize()*snake.getCellSize() + snake.getCellSize()));
@@ -102,11 +102,21 @@ public class JPanel_ extends JPanel {
 		
 		if (snake.isStart()) {
 			super.paintComponent(g);
-			/*for (int i = 0; i <= (snake.FIELD_SIZE + 1) * snake.UNIT_SIZE; i += snake.UNIT_SIZE) {
-				g.drawLine(i, 0, i, snake.FIELD_SIZE * snake.UNIT_SIZE + snake.UNIT_SIZE);
-				g.drawLine(0, i, snake.FIELD_SIZE * snake.UNIT_SIZE + snake.UNIT_SIZE, i);
+			//griglia
+			if(snake.isMultiplayer()) {
+			for (int i = 0; i <= (int)((snake.getFieldSize()+1)*snake.MPCONST )* snake.getCellSize(); i += snake.getCellSize()) {
+				g.drawLine(i + p.x, 0 + p.y, i+p.x, snake.getFieldSize() * snake.getCellSize() + snake.getCellSize() + p.y);
+				g.drawLine(0+ p.x, i + p.y, (int)(snake.getFieldSize()*snake.MPCONST) * snake.getCellSize() + snake.getCellSize() + p.x, i+ p.y);
 
-			}*/
+				}
+			}
+			else {
+				for (int i = 0; i <= (snake.getFieldSize() + 1) * snake.getCellSize(); i += snake.getCellSize()) {
+					g.drawLine(i + p.x, 0 + p.y, i + p.x, snake.getFieldSize() * snake.getCellSize() + snake.getCellSize() + p.y);
+					g.drawLine(0+ p.x, i + p.y, snake.getFieldSize() * snake.getCellSize() + snake.getCellSize() + p.x, i+ p.y);
+
+				}
+			}
 			for (int i = 0; i < snake.getLunghezza(0); i++) {
 				if (i == 0) {
 					g.setColor(colors[0]);

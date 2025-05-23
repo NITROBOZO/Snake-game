@@ -6,6 +6,7 @@ public class SnakeMultiplayer {
 	 *e le variabili di gioco principali
   	 */
 	static public final int VEL_LIMIT = 6;
+	static public final double MPCONST = Snake.MPCONST;
 	private Apple[] apples;
 	private Snake[] snakes;
 	private boolean giocoFinito;

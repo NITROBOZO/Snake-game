@@ -22,6 +22,7 @@ public class JPanel_ extends JPanel {
 	private JButton btnRestart;
 	private int[] nIMG;
 	private Color[] colors;
+	private Point point = new Point(0,0);
 	private static final long serialVersionUID = 1L;
 	public void setColors(Color[] c) {
 		colors=c;
@@ -37,7 +38,9 @@ public class JPanel_ extends JPanel {
 	public JLabel getLblGameOver() {
 		return lblGameOver;
 	}
-	
+	public void setPoint(Point p) {
+		point = p;
+	}
 
 	public JButton getBtnRestart() {
 		return btnRestart;
@@ -94,6 +97,7 @@ public class JPanel_ extends JPanel {
 
 	@Override
 	protected void paintComponent(Graphics g) {
+		Point p = point;
 		
 		
 		if (snake.isStart()) {
@@ -110,7 +114,6 @@ public class JPanel_ extends JPanel {
 					g.setColor(colors[2]);
 				}
 				g.fillRect(snake.getCoordinate(0,i).x + p.x, snake.getCoordinate(0,i).y + p.y, snake.getCellSize(), snake.getCellSize());
-				
 			}
 				if(snake.isMultiplayer()) {
 					for(int j = 0; j < snake.getLunghezza(1); j++) {
@@ -127,9 +130,9 @@ public class JPanel_ extends JPanel {
 			
 			// Get which apple was last eaten (0 or 1)
 			//se mangio mela 1, aggiorno solo mela 1, altrimenti aggiorno mela 2
-				g.drawImage(APPLEIMG[nIMG[0]], snake.getApplePos(0).x, snake.getApplePos(0).y, snake.getCellSize(), snake.getCellSize(),
+				g.drawImage(APPLEIMG[nIMG[0]], snake.getApplePos(0).x + p.x, snake.getApplePos(0).y + p.y, snake.getCellSize(), snake.getCellSize(),
 						this);
-				g.drawImage(APPLEIMG[nIMG[1]], snake.getApplePos(1).x, snake.getApplePos(1).y, snake.getCellSize(), snake.getCellSize(),
+				g.drawImage(APPLEIMG[nIMG[1]], snake.getApplePos(1).x + p.x, snake.getApplePos(1).y + p.y, snake.getCellSize(), snake.getCellSize(),
 						this);
 		}
 		

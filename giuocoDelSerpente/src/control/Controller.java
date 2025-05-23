@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -145,8 +146,7 @@ public class Controller implements ActionListener {
 		}
 
 		if (e.getSource() == menu.getBtnPlay()) {
-			GraphicsDevice g = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-			g.setFullScreenWindow(frame);
+			frame.getPanel().setPoint(new Point(200,400));
 			
 			frame.getPanel().setColors(menu.getColori());
 			frame.getPanel().getLblGameOver().setText("");

@@ -46,6 +46,7 @@ public class MyFrame extends JFrame {
 		p.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(p);
 		pack();
+		setAlwaysOnTop(true);
 		setLocationRelativeTo(null);
 	}
 

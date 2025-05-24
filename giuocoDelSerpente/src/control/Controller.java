@@ -147,17 +147,29 @@ public class Controller implements ActionListener {
 		}
 
 		if (e.getSource() == menu.getBtnPlay()) {
+			frame.setUndecorated(true);
 			if(menu.getChckbxFullscreen().isSelected()) {
 				Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 				frame.setPreferredSize(screenSize);
-				frame.setUndecorated(true);
 				if(menu.getRdbt1Player().isSelected()) {
 					frame.getPanel().setPoint(new Point(screenSize.width/5,0));
+				}
+				else {
+					frame.getPanel().setPoint(new Point(screenSize.width/30,0));
+					frame.getPanel().setPoint(new Point(screenSize.width/29,0));
 				}
 				
 			}
 			else {
-				frame.getPanel().setPoint(new Point(0,0));
+				if(menu.getRdbt2Player().isSelected()) {
+					frame.getPanel().setPoint(new Point((int)(menu.getSelectedResolution().x/85),0));
+					frame.setPreferredSize(new Dimension((int)(menu.getSelectedResolution().x/1.05),menu.getSelectedResolution().y));
+				}
+				else {
+					frame.setPreferredSize(new Dimension((int)(menu.getSelectedResolution().x/1.79),(int)(menu.getSelectedResolution().y/1.01)));
+				}
+				
+				
 			}
 			
 			
@@ -182,7 +194,7 @@ public class Controller implements ActionListener {
 			} catch (NumberFormatException e1) {
 				snake.setFieldSize(40);
 			}
-				snake.setCellSize((int) menu.getSelectedResolution().y/Integer.valueOf(menu.getAreaField().getText()));
+				snake.setCellSize((int) menu.getSelectedResolution().y/(Integer.valueOf(menu.getAreaField().getText())+1));
 			
 
 			// inizializza il serpente

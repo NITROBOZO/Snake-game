@@ -248,7 +248,7 @@ public class Menu extends JFrame implements ActionListener{
 		contentPane.add(chckbxFullscreen);
 		
 		comboBoxResolution = new JComboBox();
-		comboBoxResolution.setModel(new DefaultComboBoxModel(new String[] {"1920x1080", "1600x900", "1280x720", "960×540"}));
+		comboBoxResolution.setModel(new DefaultComboBoxModel(new String[] {"1920x1080", "1600x900", "1280x720", "960x540"}));
 		comboBoxResolution.setBounds(385, 170, 65, 22);
 		contentPane.add(comboBoxResolution);
 		windowC.getOkButton().addActionListener(this);

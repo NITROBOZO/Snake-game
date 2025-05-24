@@ -11,8 +11,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
+
 import javax.swing.Timer;
 
+import model.ScoreSaver;
 import model.SnakeMultiplayer;
 import view.MyFrame;
 import view.Menu;
@@ -27,7 +30,6 @@ public class Controller implements ActionListener {
 	private char directionP2 = ' ';
 	public SnakeMultiplayer snake;
 	private MyFrame frame;
-
 	public Controller() {
 		controller.start();
 		snake = new SnakeMultiplayer();
@@ -147,22 +149,27 @@ public class Controller implements ActionListener {
 		}
 
 		if (e.getSource() == menu.getBtnPlay()) {
+			snake.setCellSize((int) menu.getSelectedResolution().y/(Integer.valueOf(menu.getAreaField().getText())+1));
+			Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+			int yOffset = (int)(screenSize.height/60);
 			frame.setUndecorated(true);
 			if(menu.getChckbxFullscreen().isSelected()) {
-				Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+				
 				frame.setPreferredSize(screenSize);
+				
 				if(menu.getRdbt1Player().isSelected()) {
-					frame.getPanel().setPoint(new Point(screenSize.width/5,0));
+					frame.getPanel().setPoint(new Point(screenSize.width/5,yOffset));
 				}
 				else {
-					frame.getPanel().setPoint(new Point(screenSize.width/30,0));
-					frame.getPanel().setPoint(new Point(screenSize.width/29,0));
+					yOffset=yOffset-snake.getCellSize()/2;
+					frame.getPanel().setPoint(new Point(screenSize.width/30,yOffset));
+					frame.getPanel().setPoint(new Point(screenSize.width/29,yOffset));
 				}
 				
 			}
 			else {
 				if(menu.getRdbt2Player().isSelected()) {
-					frame.getPanel().setPoint(new Point((int)(menu.getSelectedResolution().x/85),0));
+					frame.getPanel().setPoint(new Point((int)(menu.getSelectedResolution().x/85),yOffset));
 					frame.setPreferredSize(new Dimension((int)(menu.getSelectedResolution().x/1.05),menu.getSelectedResolution().y));
 				}
 				else {
@@ -194,7 +201,7 @@ public class Controller implements ActionListener {
 			} catch (NumberFormatException e1) {
 				snake.setFieldSize(40);
 			}
-				snake.setCellSize((int) menu.getSelectedResolution().y/(Integer.valueOf(menu.getAreaField().getText())+1));
+				
 			
 
 			// inizializza il serpente
@@ -237,21 +244,22 @@ public class Controller implements ActionListener {
 				frame.getPanel().getLblPunti().setText("SCORE: " + (snake.getPunteggio(0) + snake.getPunteggio(1)));
 			}
 			int n = snake.controlloConflittoCorpo();// restituisce il numero del giocatore che perde,0 se è pareggio
-
 			if (snake.isGiocoFinito()) {
+				try {
 				timer.stop();
 				// messaggi di vincita
 				frame.getPanel().getLblGameOver().setVisible(true);
 				frame.getPanel().getBtnRestart().setVisible(true);
 				if (snake.isMultiplayer()) {
+					ScoreSaver.salvaM(menu.getTextFieldN1().getText(),menu.getTextFieldN2().getText(),n);
 					System.out.println(n);
 					switch (n) {
 					case 1: {
-						frame.getPanel().getLblGameOver().setText("<html><center>VINCE GIOCATORE 2<center></html>");
+						frame.getPanel().getLblGameOver().setText("<html><center>VINCE "+menu.getTextFieldN2().getText()+"<center></html>");
 					}
 						break;
 					case 2: {
-						frame.getPanel().getLblGameOver().setText("<html><center>VINCE GIOCATORE 1<center></html>");
+						frame.getPanel().getLblGameOver().setText("<html><center>VINCE "+menu.getTextFieldN1().getText()+"<center></html>");
 					}
 						break;
 					case 0: {
@@ -261,8 +269,19 @@ public class Controller implements ActionListener {
 					}
 
 				} else {
-					frame.getPanel().getLblGameOver().setText("GAME OVER");
+					else if(Integer.valueOf(ScoreSaver.get(false).get(0)[2])>=snake.getPunteggio(n)) {
+						frame.getPanel().getLblGameOver().setText("NUOVO RECORD!");
+					}
+					else {
+						frame.getPanel().getLblGameOver().setText("GAME OVER");
+					}
+					ScoreSaver.salvaS(menu.getTextFieldN1().getText(), snake.getLunghezzaInit(), snake.getPunteggio(n), snake.getFieldSize());
+					
 				}
+				}catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				
 			}
 

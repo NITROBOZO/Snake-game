@@ -43,10 +43,20 @@ public class Menu extends JFrame implements ActionListener{
 	private Color[] colors;
 	private JCheckBox chckbxFullscreen;
 	private JComboBox<String> comboBoxResolution;
+	private JTextField textFieldN1;
+	private JTextField textFieldN2;
+	private JLabel lblNomeP2;
+	private JLabel lblScores;
 	
 	
 	
 
+	public JTextField getTextFieldN1() {
+		return textFieldN1;
+	}
+	public JTextField getTextFieldN2() {
+		return textFieldN2;
+	}
 	public Color[] getColori() {
 		return colors;
 	}
@@ -119,6 +129,9 @@ public class Menu extends JFrame implements ActionListener{
 			public void actionPerformed(ActionEvent e) {
 				if(rdbt1Player.isSelected()) {
 					btnPlay.setRolloverIcon(IMG[2]);
+					textFieldN2.setVisible(false);
+					lblNomeP2.setVisible(false);
+					textFieldN2.setText("P2");
 				}
 			}
 		});
@@ -140,6 +153,9 @@ public class Menu extends JFrame implements ActionListener{
 			public void actionPerformed(ActionEvent e) {
 				if(rdbt2Player.isSelected()) {
 					btnPlay.setRolloverIcon(IMG[1]);
+					textFieldN2.setVisible(true);
+					lblNomeP2.setVisible(true);
+					
 				}
 			}
 		});
@@ -188,7 +204,7 @@ public class Menu extends JFrame implements ActionListener{
 		JLabel lblRisoluzione = new JLabel("<html><center>Risoluzione</center></html>");
 		lblRisoluzione.setForeground(Color.WHITE);
 		lblRisoluzione.setFont(new Font("Unispace", Font.PLAIN, 13));
-		lblRisoluzione.setBounds(375, 134, 97, 39);
+		lblRisoluzione.setBounds(376, 124, 97, 39);
 		contentPane.add(lblRisoluzione);
 		
 		btnColori = new JButton("COLORI");
@@ -216,7 +232,7 @@ public class Menu extends JFrame implements ActionListener{
 		lblTitolo.setHorizontalAlignment(JLabel.CENTER);
 		lblTitolo.setForeground(Color.WHITE);
 		lblTitolo.setFont(new Font("Dialog", Font.BOLD, 38));
-		lblTitolo.setBounds(10, 28, 516, 39);
+		lblTitolo.setBounds(183, 28, 155, 39);
 		contentPane.add(lblTitolo);
 		
 		JLabel lblArea = new JLabel("Area");
@@ -234,12 +250,6 @@ public class Menu extends JFrame implements ActionListener{
 		contentPane.add(boxMuri);
 		
 		chckbxFullscreen = new JCheckBox("Fullscreen");
-		chckbxFullscreen.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				
-			}
-		});
 		chckbxFullscreen.setOpaque(false);
 		chckbxFullscreen.setForeground(Color.WHITE);
 		chckbxFullscreen.setFont(new Font("Unispace", Font.PLAIN, 20));
@@ -249,8 +259,50 @@ public class Menu extends JFrame implements ActionListener{
 		
 		comboBoxResolution = new JComboBox();
 		comboBoxResolution.setModel(new DefaultComboBoxModel(new String[] {"1920x1080", "1600x900", "1280x720", "960x540"}));
-		comboBoxResolution.setBounds(385, 170, 65, 22);
+		comboBoxResolution.setBounds(376, 167, 64, 28);
 		contentPane.add(comboBoxResolution);
+		
+		textFieldN1 = new JTextField("");
+		textFieldN1.setBounds(22, 221, 86, 20);
+		contentPane.add(textFieldN1);
+		textFieldN1.setColumns(10);
+		
+		textFieldN2 = new JTextField("P2");
+		textFieldN2.setColumns(10);
+		textFieldN2.setVisible(false);
+		textFieldN2.setBounds(118, 221, 86, 20);
+		contentPane.add(textFieldN2);
+		
+		JLabel lblNomeP1 = new JLabel("Nick P1");
+		lblNomeP1.setForeground(Color.WHITE);
+		lblNomeP1.setFont(new Font("Dialog", Font.PLAIN, 13));
+		lblNomeP1.setBounds(22, 195, 79, 27);
+		contentPane.add(lblNomeP1);
+		
+		lblNomeP2 = new JLabel("Nick P2");
+		lblNomeP2.setForeground(Color.WHITE);
+		lblNomeP2.setVisible(false);
+		lblNomeP2.setFont(new Font("Dialog", Font.PLAIN, 13));
+		lblNomeP2.setBounds(120, 195, 79, 27);
+		contentPane.add(lblNomeP2);
+		
+		JLabel lblNewLabel = new JLabel("RECORD");
+		lblNewLabel.setForeground(new Color(255, 255, 255));
+		lblNewLabel.setBackground(new Color(255, 255, 255));
+		lblNewLabel.setBounds(375, 11, 68, 14);
+		contentPane.add(lblNewLabel);
+		
+		JLabel lblVsMode = new JLabel("VS MODE");
+		lblVsMode.setForeground(Color.WHITE);
+		lblVsMode.setBackground(Color.WHITE);
+		lblVsMode.setBounds(453, 11, 63, 14);
+		contentPane.add(lblVsMode);
+		
+		lblScores = new JLabel("New label");
+		lblScores.setForeground(new Color(255, 255, 255));
+		lblScores.setBounds(363, 28, 64, 85);
+		lblScores.setVerticalAlignment(JLabel.TOP);
+		contentPane.add(lblScores);
 		windowC.getOkButton().addActionListener(this);
 		windowC.getCancelButton().addActionListener(this);
 	}

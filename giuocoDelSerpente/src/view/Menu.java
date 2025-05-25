@@ -22,6 +22,9 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 import javax.swing.JCheckBox;
+import javax.swing.JList;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 public class Menu extends JFrame implements ActionListener{
 	private static final ImageIcon[] IMG = {new ImageIcon(Menu.class.getResource("/images/btnPlayStatic.png")),
@@ -46,11 +49,18 @@ public class Menu extends JFrame implements ActionListener{
 	private JTextField textFieldN1;
 	private JTextField textFieldN2;
 	private JLabel lblNomeP2;
-	private JLabel lblScores;
+	private JTextArea textAreaS;
+	private JTextArea textAreaM;
 	
 	
 	
 
+	public JTextArea getTextAreaS() {
+		return textAreaS;
+	}
+	public JTextArea getTextAreaM() {
+		return textAreaM;
+	}
 	public JTextField getTextFieldN1() {
 		return textFieldN1;
 	}
@@ -232,7 +242,7 @@ public class Menu extends JFrame implements ActionListener{
 		lblTitolo.setHorizontalAlignment(JLabel.CENTER);
 		lblTitolo.setForeground(Color.WHITE);
 		lblTitolo.setFont(new Font("Dialog", Font.BOLD, 38));
-		lblTitolo.setBounds(183, 28, 155, 39);
+		lblTitolo.setBounds(0, 28, 155, 39);
 		contentPane.add(lblTitolo);
 		
 		JLabel lblArea = new JLabel("Area");
@@ -257,12 +267,12 @@ public class Menu extends JFrame implements ActionListener{
 		chckbxFullscreen.setBounds(78, 85, 155, 23);
 		contentPane.add(chckbxFullscreen);
 		
-		comboBoxResolution = new JComboBox();
-		comboBoxResolution.setModel(new DefaultComboBoxModel(new String[] {"1920x1080", "1600x900", "1280x720", "960x540"}));
+		comboBoxResolution = new JComboBox<String>();
+		comboBoxResolution.setModel(new DefaultComboBoxModel<String>(new String[] {"1920x1080", "1600x900", "1280x720", "960x540"}));
 		comboBoxResolution.setBounds(376, 167, 64, 28);
 		contentPane.add(comboBoxResolution);
 		
-		textFieldN1 = new JTextField("");
+		textFieldN1 = new JTextField("P1");
 		textFieldN1.setBounds(22, 221, 86, 20);
 		contentPane.add(textFieldN1);
 		textFieldN1.setColumns(10);
@@ -289,20 +299,30 @@ public class Menu extends JFrame implements ActionListener{
 		JLabel lblNewLabel = new JLabel("RECORD");
 		lblNewLabel.setForeground(new Color(255, 255, 255));
 		lblNewLabel.setBackground(new Color(255, 255, 255));
-		lblNewLabel.setBounds(375, 11, 68, 14);
+		lblNewLabel.setBounds(199, 11, 68, 14);
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblVsMode = new JLabel("VS MODE");
 		lblVsMode.setForeground(Color.WHITE);
 		lblVsMode.setBackground(Color.WHITE);
-		lblVsMode.setBounds(453, 11, 63, 14);
+		lblVsMode.setBounds(376, 11, 63, 14);
 		contentPane.add(lblVsMode);
 		
-		lblScores = new JLabel("New label");
-		lblScores.setForeground(new Color(255, 255, 255));
-		lblScores.setBounds(363, 28, 64, 85);
-		lblScores.setVerticalAlignment(JLabel.TOP);
-		contentPane.add(lblScores);
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(192, 28, 152, 106);
+		contentPane.add(scrollPane);
+		
+		textAreaS = new JTextArea();
+		scrollPane.setViewportView(textAreaS);
+		textAreaS.setEditable(false);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(361, 28, 155, 106);
+		contentPane.add(scrollPane_1);
+		
+		textAreaM = new JTextArea();
+		textAreaM.setEditable(false);
+		scrollPane_1.setViewportView(textAreaM);
 		windowC.getOkButton().addActionListener(this);
 		windowC.getCancelButton().addActionListener(this);
 	}

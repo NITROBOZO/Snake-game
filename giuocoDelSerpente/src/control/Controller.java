@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.Timer;
 
@@ -30,7 +31,7 @@ public class Controller implements ActionListener {
 	private char directionP2 = ' ';
 	public SnakeMultiplayer snake;
 	private MyFrame frame;
-	public Controller() {
+	public Controller() throws IOException {
 		controller.start();
 		snake = new SnakeMultiplayer();
 		menu = new Menu();
@@ -41,6 +42,38 @@ public class Controller implements ActionListener {
 		menu.getBtnPlay().addActionListener(this);
 		frame.getPanel().getBtnRestart().addActionListener(this);
 		snake.setLunghezzaIniziale(1);
+		try {
+			if(!ScoreSaver.hasFileM()) {
+			ScoreSaver.salvaM("P1","P2",2);
+			}
+			ArrayList<String[]> ptS = ScoreSaver.get(true);
+			System.out.println(ptS.size());
+			String full ="";
+			for(String[] strs : ptS) {
+				full += strs[0]+" VS "+strs[1]+" -> "+strs[2]+"\n";
+				menu.getTextAreaM().setText(full);
+			}
+			
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			if(!ScoreSaver.hasFileS()) {
+			ScoreSaver.salvaS("SIGMA", 4, 6, 6);
+			}
+			ArrayList<String[]> ptS = ScoreSaver.get(false);
+			System.out.println(ptS.size());
+			String full ="";
+			for(String[] strs : ptS) {
+				full += strs[0]+" score: "+strs[2]+"\nLiniziale: "+strs[1]+" area: "+strs[3]+"\n";
+				menu.getTextAreaS().setText(full);
+			}
+			
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		frame.getContentPane().addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -241,18 +274,29 @@ public class Controller implements ActionListener {
 				} else {
 					nIMG[1] = (int) (Math.random() + 0.5);
 				}
-				frame.getPanel().getLblPunti().setText("SCORE: " + (snake.getPunteggio(0) + snake.getPunteggio(1)));
+				frame.getPanel().getLblPunti().setText("SCORE: " + snake.getPunteggio(0));
 			}
-			int n = snake.controlloConflittoCorpo();// restituisce il numero del giocatore che perde,0 se è pareggio
+			int n = snake.controlloConflittoCorpo();
+			int cPT=snake.getPunteggio(0);// restituisce il numero del giocatore che perde,0 se è pareggio
 			if (snake.isGiocoFinito()) {
-				try {
 				timer.stop();
 				// messaggi di vincita
 				frame.getPanel().getLblGameOver().setVisible(true);
 				frame.getPanel().getBtnRestart().setVisible(true);
 				if (snake.isMultiplayer()) {
-					ScoreSaver.salvaM(menu.getTextFieldN1().getText(),menu.getTextFieldN2().getText(),n);
-					System.out.println(n);
+					try {
+						ScoreSaver.salvaM(menu.getTextFieldN1().getText(),menu.getTextFieldN2().getText(),n);
+						ArrayList<String[]> ptS = ScoreSaver.get(true);
+						System.out.println(ptS.size());
+						String full ="";
+						for(String[] strs : ptS) {
+							full += strs[0]+" VS "+strs[1]+" -> "+strs[2]+"\n";
+							menu.getTextAreaM().setText(full);
+						}
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					switch (n) {
 					case 1: {
 						frame.getPanel().getLblGameOver().setText("<html><center>VINCE "+menu.getTextFieldN2().getText()+"<center></html>");
@@ -267,26 +311,43 @@ public class Controller implements ActionListener {
 					}
 						break;
 					}
-
 				} else {
-					else if(Integer.valueOf(ScoreSaver.get(false).get(0)[2])>=snake.getPunteggio(n)) {
-						frame.getPanel().getLblGameOver().setText("NUOVO RECORD!");
+					try {
+						
+						if(Integer.valueOf(ScoreSaver.get(false).get(0)[2])<cPT) {
+							frame.getPanel().getLblGameOver().setText("NUOVO RECORD!");
+						}
+						else {
+							frame.getPanel().getLblGameOver().setText("GAME OVER");
+						}
+					} catch (NumberFormatException | IOException e1) {
+						e1.printStackTrace();
 					}
-					else {
-						frame.getPanel().getLblGameOver().setText("GAME OVER");
-					}
-					ScoreSaver.salvaS(menu.getTextFieldN1().getText(), snake.getLunghezzaInit(), snake.getPunteggio(n), snake.getFieldSize());
-					
-				}
-				}catch (IOException e1) {
+					try {
+						ScoreSaver.salvaS(menu.getTextFieldN1().getText(), snake.getLunghezzaInit(), cPT, snake.getFieldSize());
+						ArrayList<String[]> ptS = ScoreSaver.get(false);
+						System.out.println(ptS.size());
+						String full ="";
+						for(String[] strs : ptS) {
+							full += strs[0]+" score: "+strs[2]+"\nLiniziale: "+strs[1]+" area: "+strs[3]+"\n";
+							menu.getTextAreaS().setText(full);
+						}
+					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
+					
+					
+				}
 				
-			}
-
+				
+				}
 		}
-
 	}
-
 }
+		
+				
+
+		
+
+

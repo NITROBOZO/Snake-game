@@ -21,10 +21,18 @@ public class ScoreSaver {
 		file.createNewFile();
 		String before = Files.readString(Paths.get(FILEPATH_S));
 		FileWriter f = new FileWriter(file.getAbsolutePath());
-		f.write(nick+"."+initSize+"."+score+"."+area+"\n"+before);
+		f.write(nick+"×"+initSize+"×"+score+"×"+area+"\n"+before);
 		f.close();
 		
 		
+	}
+	public static boolean hasFileS() {
+		File f1 = new File(FILEPATH_S);
+		return f1.exists();
+	}
+	public static boolean hasFileM() {
+		File f2 = new File(FILEPATH_S);
+		return f2.exists();
 	}
 	public static ArrayList<String[]> get(boolean b) throws IOException {
 		String path="";
@@ -34,25 +42,26 @@ public class ScoreSaver {
 		else {
 			path = FILEPATH_S;
 		}
-		File f = new File(path);
 		ArrayList<String[]> data = new ArrayList<String[]>();
-		if(!f.exists()) {
-		}
 		String str = Files.readString(Paths.get(path));
 		for(String s : str.split("\n")) {
-			data.add(s.split("\\."));
+			data.add(s.split("\\×"));
 		}
 		if(!b) {
-			for(int j=0;j<data.size();j++) {
+			for(int j=0;j<data.size()-1;j++) {
 			for(int i=0;i<data.size()-1;i++) {
-				if(Integer.valueOf(data.get(i)[2])<Integer.valueOf(data.get(i+1)[2])) {
-					data.set(i, new String[] {data.get(i+1)[0],data.get(i+1)[1],data.get(i+1)[2],data.get(i+1)[3]});
+				// Inside your inner loop where you compare:
+				if(Integer.valueOf(data.get(i)[2]) < Integer.valueOf(data.get(i+1)[2])) {
+				    String[] temp = data.get(i); // Temporarily store the current element
+				    data.set(i, data.get(i+1));   // Replace current with the next (larger) element
+				    data.set(i+1, temp);          // Put the original current element into the next position
 				}
 			}
 		}
+			for(int i = 0;i< data.size();i++) {
+				System.out.println(data.get(i)[2]);
+			}
 	}
-		
-		System.out.println(data.get(0)[2]);
 		return data;
 	}
 	public static void salvaM(String p1,String p2,int vincitore) throws IOException {
@@ -67,13 +76,13 @@ public class ScoreSaver {
 			winner="Pareggio";
 		}break;
 		case 1:{
-			winner=p2;
+			winner="Vince " + p2;
 		}break;
 		case 2:{
-			winner=p1;
+			winner="Vince " + p1;
 		}break;
 		}
-		f.write(p1+"."+p2+"."+winner+"\n"+before);
+		f.write(p1+"×"+p2+"×"+winner+"\n"+before);
 		f.close();
 		
 		

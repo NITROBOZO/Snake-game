@@ -17,8 +17,18 @@ public class SnakeMultiplayer {
 	private int velocita;
 	private boolean multiplayer;
 	private int lastEaten;
+	private boolean walls;
+
+	public boolean isWalls() {
+		return walls;
+	}
+
+	public void setWalls(boolean walls) {
+		this.walls = walls;
+	}
 
 	public SnakeMultiplayer () {
+		walls=false;
 		lastEaten = 2;
 		apples = new Apple[2];
 		snakes = new Snake[2];
@@ -225,8 +235,8 @@ public class SnakeMultiplayer {
 	}
 	
 	public void move(char c, char c2) {//movimento
-		snakes[0].move(c, fieldSize, cellSize, multiplayer);
-		snakes[1].move(c2, fieldSize, cellSize, multiplayer);
+		snakes[0].move(c, fieldSize, cellSize, multiplayer,walls);
+		snakes[1].move(c2, fieldSize, cellSize, multiplayer,walls);
 	}
 	
 	public void genApple() {

@@ -37,6 +37,7 @@ public class Controller implements ActionListener {
 		menu = new Menu();
 		frame = new MyFrame(snake);
 		menu.setVisible(true);
+		snake.setWalls(true);
 		frame.dispose();
 		menu.getBtnColori().addActionListener(this);
 		menu.getBtnPlay().addActionListener(this);
@@ -182,9 +183,10 @@ public class Controller implements ActionListener {
 		}
 
 		if (e.getSource() == menu.getBtnPlay()) {
+			snake.setWalls(menu.getBoxMuri().isSelected());
 			snake.setCellSize((int) menu.getSelectedResolution().y/(Integer.valueOf(menu.getAreaField().getText())+1));
 			Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-			int yOffset = (int)(screenSize.height/60);
+			int yOffset = (int)(screenSize.height/100);
 			frame.setUndecorated(true);
 			if(menu.getChckbxFullscreen().isSelected()) {
 				

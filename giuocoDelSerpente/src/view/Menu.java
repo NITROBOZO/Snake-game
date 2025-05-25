@@ -113,6 +113,7 @@ public class Menu extends JFrame implements ActionListener{
 	public JCheckBox getChckbxFullscreen() {
 		return chckbxFullscreen;
 	}
+	
 	/**
 	 * Create the frame.
 	 */
@@ -305,11 +306,11 @@ public class Menu extends JFrame implements ActionListener{
 		JLabel lblVsMode = new JLabel("VS MODE");
 		lblVsMode.setForeground(Color.WHITE);
 		lblVsMode.setBackground(Color.WHITE);
-		lblVsMode.setBounds(376, 11, 63, 14);
+		lblVsMode.setBounds(316, 11, 63, 14);
 		contentPane.add(lblVsMode);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(192, 28, 152, 106);
+		scrollPane.setBounds(192, 28, 114, 106);
 		contentPane.add(scrollPane);
 		
 		textAreaS = new JTextArea();
@@ -317,7 +318,7 @@ public class Menu extends JFrame implements ActionListener{
 		textAreaS.setEditable(false);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(361, 28, 155, 106);
+		scrollPane_1.setBounds(316, 28, 200, 106);
 		contentPane.add(scrollPane_1);
 		
 		textAreaM = new JTextArea();

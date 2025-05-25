@@ -69,7 +69,7 @@ public class Snake {
 		}
 	}
 
-	public void move (char c, int fieldSize, int cellSize, boolean m) {
+	public void move (char c, int fieldSize, int cellSize, boolean m,boolean walls) {
 			if(c != ' ') {
 				for (int i = this.coordinateCorpo.size() - 1; i > 0; i--) {//sposta il corpo del serpente dietro la testa
 					Point punto = this.coordinateCorpo.get(i - 1);
@@ -86,7 +86,47 @@ public class Snake {
 			if ((c == 'W' && this.lastChar != 'S') || (c == 'S' && this.lastChar != 'W') || (c == 'A' && this.lastChar != 'D') || (c == 'D' && this.lastChar != 'A') || this.lastChar == ' ') {
 				this.lastChar = c;
 			}
-		
+			if(walls) {
+				switch (this.lastChar) {
+				case 'W': {
+					if (this.coordinateCorpo.get(0).y != 0 ) {
+						this.coordinateCorpo.get(0).y = coordinateCorpo.get(0).y - cellSize;
+					}
+					else {
+						this.coordinateCorpo.get(0).y = fieldSize * cellSize;
+					}
+					break;
+				}
+				case 'A': {
+					if (this.coordinateCorpo.get(0).x != 0 ) {
+						this.coordinateCorpo.get(0).x = coordinateCorpo.get(0).x - cellSize;
+					}
+					else {
+						this.coordinateCorpo.get(0).x = xSize * cellSize;
+					}
+					break;
+				}
+				case 'S': {
+					if (this.coordinateCorpo.get(0).y != fieldSize * cellSize) {
+						this.coordinateCorpo.get(0).y = coordinateCorpo.get(0).y + cellSize;
+					}
+					else {
+						this.coordinateCorpo.get(0).y = 0;
+					}
+					break;
+				}
+				case 'D': {
+					if (this.coordinateCorpo.get(0).x != xSize * cellSize ) {
+						this.coordinateCorpo.get(0).x = coordinateCorpo.get(0).x + cellSize;
+					}
+					else {
+						this.coordinateCorpo.get(0).x = 0;
+					}
+					break;
+				}
+				}
+			}
+			else {
 			switch (this.lastChar) {
 			case 'W': {
 				if (this.coordinateCorpo.get(0).y != 0 ) {
@@ -113,7 +153,9 @@ public class Snake {
 				break;
 			}
 			}
+			}
 		}
+
 	
 	public boolean isAppleCollision (Point apple) {
 		if(this.coordinateCorpo.get(0).equals(apple)) {

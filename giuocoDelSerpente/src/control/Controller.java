@@ -1,10 +1,6 @@
 package control;
 
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.EventQueue;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -43,38 +39,7 @@ public class Controller implements ActionListener {
 		menu.getBtnPlay().addActionListener(this);
 		frame.getPanel().getBtnRestart().addActionListener(this);
 		snake.setLunghezzaIniziale(1);
-		try {
-			if(!ScoreSaver.hasFileM()) {
-			ScoreSaver.salvaM("P1","P2",2);
-			}
-			ArrayList<String[]> ptS = ScoreSaver.get(true);
-			System.out.println(ptS.size());
-			String full ="";
-			for(String[] strs : ptS) {
-				full += strs[0]+" VS "+strs[1]+" -> "+strs[2]+"\n";
-				menu.getTextAreaM().setText(full);
-			}
-			
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		try {
-			if(!ScoreSaver.hasFileS()) {
-			ScoreSaver.salvaS("SIGMA", 4, 6, 6);
-			}
-			ArrayList<String[]> ptS = ScoreSaver.get(false);
-			System.out.println(ptS.size());
-			String full ="";
-			for(String[] strs : ptS) {
-				full += strs[0]+" score: "+strs[2]+"\nLiniziale: "+strs[1]+" area: "+strs[3]+"\n";
-				menu.getTextAreaS().setText(full);
-			}
-			
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		initFiles();
 		frame.getContentPane().addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -154,6 +119,7 @@ public class Controller implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		/*gestione input controller*/
 		if (snake.isMultiplayer()) {
 			if (controller.isP1DpadDown()) {
 				directionP2 = 'S';
@@ -183,6 +149,7 @@ public class Controller implements ActionListener {
 		}
 
 		if (e.getSource() == menu.getBtnPlay()) {
+			//gestione variabili di gioco, posizionamento del campo di gioco e impostazione della risoluzione
 			snake.setWalls(menu.getBoxMuri().isSelected());
 			snake.setCellSize((int) menu.getSelectedResolution().y/(Integer.valueOf(menu.getAreaField().getText())+1));
 			Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -271,7 +238,7 @@ public class Controller implements ActionListener {
 			if (snake.appleCollision()) {
 				int eaten = snake.getLastEaten();
 				int[] nIMG = frame.getPanel().getNIMG();
-				if (eaten == 0 || eaten == 2) {
+				if (eaten == 0 || eaten == 2) {//immagine casuale per la mela
 					nIMG[0] = (int) (Math.random() + 0.5);
 				} else {
 					nIMG[1] = (int) (Math.random() + 0.5);
@@ -279,27 +246,17 @@ public class Controller implements ActionListener {
 				frame.getPanel().getLblPunti().setText("SCORE: " + snake.getPunteggio(0));
 			}
 			int n = snake.controlloConflittoCorpo();
-			int cPT=snake.getPunteggio(0);// restituisce il numero del giocatore che perde,0 se è pareggio
+			int cPT=snake.getPunteggio(0);// restituisce il numero del giocatore che perde,0 se è pareggio, ho dovuto salvarlo poichè cambiava il valore da solo
 			if (snake.isGiocoFinito()) {
 				timer.stop();
 				// messaggi di vincita
 				frame.getPanel().getLblGameOver().setVisible(true);
 				frame.getPanel().getBtnRestart().setVisible(true);
 				if (snake.isMultiplayer()) {
-					try {
-						ScoreSaver.salvaM(menu.getTextFieldN1().getText(),menu.getTextFieldN2().getText(),n);
-						ArrayList<String[]> ptS = ScoreSaver.get(true);
-						System.out.println(ptS.size());
-						String full ="";
-						for(String[] strs : ptS) {
-							full += strs[0]+" VS "+strs[1]+" -> "+strs[2]+"\n";
-							menu.getTextAreaM().setText(full);
-						}
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					switch (n) {
+						/*parte di salvataggio delle statistiche partita*/
+						saveAndPrintM(menu.getTextFieldN1().getText(),menu.getTextFieldN2().getText(),n);
+						
+					switch (n) {//messaggio di vincita
 					case 1: {
 						frame.getPanel().getLblGameOver().setText("<html><center>VINCE "+menu.getTextFieldN2().getText()+"<center></html>");
 					}
@@ -315,7 +272,7 @@ public class Controller implements ActionListener {
 					}
 				} else {
 					try {
-						
+						//messaggio di vincita solo se è un nuovo record
 						if(Integer.valueOf(ScoreSaver.get(false).get(0)[2])<cPT) {
 							frame.getPanel().getLblGameOver().setText("NUOVO RECORD!");
 						}
@@ -325,26 +282,80 @@ public class Controller implements ActionListener {
 					} catch (NumberFormatException | IOException e1) {
 						e1.printStackTrace();
 					}
-					try {
-						ScoreSaver.salvaS(menu.getTextFieldN1().getText(), snake.getLunghezzaInit(), cPT, snake.getFieldSize());
-						ArrayList<String[]> ptS = ScoreSaver.get(false);
-						System.out.println(ptS.size());
-						String full ="";
-						for(String[] strs : ptS) {
-							full += strs[0]+" score: "+strs[2]+"\nLiniziale: "+strs[1]+" area: "+strs[3]+"\n";
-							menu.getTextAreaS().setText(full);
-						}
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+					saveAndPrintS(menu.getTextFieldN1().getText(),snake.getLunghezza(0),cPT,snake.getFieldSize(),snake.isWalls());
 					
 					
 				}
 				
 				
 				}
+			
 		}
+	}
+	private void saveAndPrintS(String str,int l,int c,int fSize,boolean w) {
+		try {
+			//salva il punteggio con tutte le statistiche della partita
+			ScoreSaver.salvaS(str, l, c, fSize,w);
+			ArrayList<String[]> ptS = ScoreSaver.get(false);
+			String full ="";
+			String s="";
+			for(String[] strs : ptS) {
+				full += strs[0]+" score: "+strs[2]+" w: "+strs[3]+"\nLiniziale: "+strs[1]+" area: "+strs[4]+"\n";
+				menu.getTextAreaS().setText(full);
+			}
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
+	private void saveAndPrintM(String p1,String p2,int n) {
+		try {
+			ScoreSaver.salvaM(p1,p2,n);
+			ArrayList<String[]> ptS = ScoreSaver.get(true);;
+			String full ="";
+			for(String[] strs : ptS) {
+				full += strs[0]+" VS "+strs[1]+" -> "+strs[2]+"\n";
+				menu.getTextAreaM().setText(full);
+			}
+			
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
+	private void initFiles() {
+		try {
+			if(!ScoreSaver.hasFileM()) {
+				ScoreSaver.salvaM("P1","P2",2);
+			}
+			if(!ScoreSaver.hasFileS()) {
+				ScoreSaver.salvaS("Player", 3, 5, 20,true);
+			}
+			for(int i = 0;  i < 2;i++) {
+				if(i==0) {
+					ArrayList<String[]> ptS = ScoreSaver.get(false);
+					System.out.println(ptS.size());
+					String full ="";
+					String s="";
+					for(String[] strs : ptS) {
+						full += strs[0]+" score: "+strs[2]+" w: "+strs[3]+"\nLiniziale: "+strs[1]+" area: "+strs[4]+"\n";
+						menu.getTextAreaS().setText(full);
+					}
+				}
+				else {
+					ArrayList<String[]> ptS = ScoreSaver.get(true);;
+					String full ="";
+					for(String[] strs : ptS) {
+						full += strs[0]+" VS "+strs[1]+" -> "+strs[2]+"\n";
+						menu.getTextAreaM().setText(full);
+					}
+				}
+			}
+			
+	} catch (IOException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	}
 	}
 }
 		

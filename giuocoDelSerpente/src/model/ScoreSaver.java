@@ -10,18 +10,20 @@ public class ScoreSaver {
 	private static final String PATH=System.getenv("APPDATA")+"\\SnakeJavaGame";
 	private static final String FILEPATH_S=PATH+"\\scoresS.txt";
 	private static final String FILEPATH_M=PATH+"\\scoresM.txt";
-	public static void main(String[] args) throws IOException {
-		ScoreSaver.salvaS("pippo",6, 3, 3);
-		ScoreSaver.salvaM("pippo","pluto", 1);
-		ScoreSaver.get(true);	
-	}
-	public static void salvaS(String nick,int initSize,int score,int area) throws IOException {
+	public static void salvaS(String nick,int initSize,int score,int area,boolean w) throws IOException {
 		Files.createDirectories(Paths.get(PATH));
 		File file = new File(FILEPATH_S);
 		file.createNewFile();
 		String before = Files.readString(Paths.get(FILEPATH_S));
 		FileWriter f = new FileWriter(file.getAbsolutePath());
-		f.write(nick+"×"+initSize+"×"+score+"×"+area+"\n"+before);
+		String s="";
+		if(w) {
+			s="on";
+		}
+		else {
+			s="off";
+		}
+		f.write(nick+"×"+initSize+"×"+score+"×"+s+"×"+area+"\n"+before);
 		f.close();
 		
 		

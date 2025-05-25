@@ -33,7 +33,7 @@ public class ScoreSaver {
 		return f1.exists();
 	}
 	public static boolean hasFileM() {
-		File f2 = new File(FILEPATH_S);
+		File f2 = new File(FILEPATH_M);
 		return f2.exists();
 	}
 	public static ArrayList<String[]> get(boolean b) throws IOException {

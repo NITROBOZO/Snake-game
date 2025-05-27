@@ -126,7 +126,7 @@ public class Menu extends JFrame implements ActionListener{
 		colors[3]=Color.cyan;
 		windowC = new FrameColori();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 542, 444);
+		setBounds(100, 100, 597, 444);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(0, 0, 0));
@@ -300,17 +300,17 @@ public class Menu extends JFrame implements ActionListener{
 		JLabel lblNewLabel = new JLabel("RECORD");
 		lblNewLabel.setForeground(new Color(255, 255, 255));
 		lblNewLabel.setBackground(new Color(255, 255, 255));
-		lblNewLabel.setBounds(199, 11, 68, 14);
+		lblNewLabel.setBounds(242, 11, 68, 14);
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblVsMode = new JLabel("VS MODE");
 		lblVsMode.setForeground(Color.WHITE);
 		lblVsMode.setBackground(Color.WHITE);
-		lblVsMode.setBounds(316, 11, 63, 14);
+		lblVsMode.setBounds(377, 11, 63, 14);
 		contentPane.add(lblVsMode);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(192, 28, 114, 106);
+		scrollPane.setBounds(240, 28, 114, 106);
 		contentPane.add(scrollPane);
 		
 		textAreaS = new JTextArea();
@@ -318,7 +318,7 @@ public class Menu extends JFrame implements ActionListener{
 		textAreaS.setEditable(false);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(316, 28, 200, 106);
+		scrollPane_1.setBounds(371, 28, 200, 106);
 		contentPane.add(scrollPane_1);
 		
 		textAreaM = new JTextArea();

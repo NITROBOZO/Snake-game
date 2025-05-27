@@ -13,7 +13,6 @@ public class Apple {
 		x = (multiplayer ? (random.nextInt(((int)(fieldSize * 1.7) )))* cellSize : (random.nextInt(fieldSize) * cellSize));
 		y = random.nextInt(fieldSize) * cellSize;
 		applePos.setLocation(x, y);
-		System.out.println(x+":"+y);
 		return applePos.getLocation();
 	}
 	

@@ -3,23 +3,24 @@ package model;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.awt.Point;
+import java.awt.event.KeyEvent;
 
 public class Snake {
 	public static final double MPCONST = 1.7;
 	private ArrayList<Point> coordinateCorpo;
 	private int punteggio;
-	private char lastChar;
+	private int lastKey;
 	
 	public Snake ()
 	{	
-		lastChar = ' ';
+		lastKey = 255;
 		this.coordinateCorpo = new ArrayList<Point>();
 		this.punteggio = 0;
 	}
 
 	// OMPOSTA LUNGHEZZA E POSIZIONE IN BASE AL PLAYER
 	public void setLunghezzaIniziale (int n,int cellSize,int fieldSize,boolean p2) {
-		this.lastChar = ' ';
+		this.lastKey = 255;
 		this.coordinateCorpo.clear();
 		this.coordinateCorpo.trimToSize();
 		
@@ -69,8 +70,8 @@ public class Snake {
 		}
 	}
 
-	public void move (char c, int fieldSize, int cellSize, boolean m,boolean walls) {
-			if(c != ' ') {
+	public void move (int c, int fieldSize, int cellSize, boolean m,boolean walls) {
+			if(c != 255) {
 				for (int i = this.coordinateCorpo.size() - 1; i > 0; i--) {//sposta il corpo del serpente dietro la testa
 					Point punto = this.coordinateCorpo.get(i - 1);
 					this.coordinateCorpo.get(i).setLocation(punto.x, punto.y);
@@ -83,12 +84,16 @@ public class Snake {
 				xSize= (int)(xSize * MPCONST);
 			}
 
-			if ((c == 'W' && this.lastChar != 'S') || (c == 'S' && this.lastChar != 'W') || (c == 'A' && this.lastChar != 'D') || (c == 'D' && this.lastChar != 'A') || this.lastChar == ' ') {
-				this.lastChar = c;
+			if ((c == KeyEvent.VK_W && this.lastKey != KeyEvent.VK_S) || 
+					(c == KeyEvent.VK_S && this.lastKey != KeyEvent.VK_W) || 
+					(c == KeyEvent.VK_A && this.lastKey != KeyEvent.VK_D) || 
+					(c == KeyEvent.VK_D && this.lastKey != KeyEvent.VK_A) || 
+					this.lastKey == 255) {
+				this.lastKey = c;
 			}
 			if(walls) {
-				switch (this.lastChar) {
-				case 'W': {
+				switch (this.lastKey) {
+				case KeyEvent.VK_W: {
 					if (this.coordinateCorpo.get(0).y != 0 ) {
 						this.coordinateCorpo.get(0).y = coordinateCorpo.get(0).y - cellSize;
 					}
@@ -97,7 +102,7 @@ public class Snake {
 					}
 					break;
 				}
-				case 'A': {
+				case KeyEvent.VK_A: {
 					if (this.coordinateCorpo.get(0).x != 0 ) {
 						this.coordinateCorpo.get(0).x = coordinateCorpo.get(0).x - cellSize;
 					}
@@ -106,7 +111,7 @@ public class Snake {
 					}
 					break;
 				}
-				case 'S': {
+				case KeyEvent.VK_S: {
 					if (this.coordinateCorpo.get(0).y != fieldSize * cellSize) {
 						this.coordinateCorpo.get(0).y = coordinateCorpo.get(0).y + cellSize;
 					}
@@ -115,7 +120,7 @@ public class Snake {
 					}
 					break;
 				}
-				case 'D': {
+				case KeyEvent.VK_D: {
 					if (this.coordinateCorpo.get(0).x != xSize * cellSize ) {
 						this.coordinateCorpo.get(0).x = coordinateCorpo.get(0).x + cellSize;
 					}
@@ -127,26 +132,26 @@ public class Snake {
 				}
 			}
 			else {
-			switch (this.lastChar) {
-			case 'W': {
+			switch (this.lastKey) {
+			case KeyEvent.VK_W: {
 				if (this.coordinateCorpo.get(0).y != 0 ) {
 					this.coordinateCorpo.get(0).y = coordinateCorpo.get(0).y - cellSize;
 				}
 				break;
 			}
-			case 'A': {
+			case KeyEvent.VK_A: {
 				if (this.coordinateCorpo.get(0).x != 0 ) {
 					this.coordinateCorpo.get(0).x = coordinateCorpo.get(0).x - cellSize;
 				}
 				break;
 			}
-			case 'S': {
+			case KeyEvent.VK_S: {
 				if (this.coordinateCorpo.get(0).y != fieldSize * cellSize) {
 					this.coordinateCorpo.get(0).y = coordinateCorpo.get(0).y + cellSize;
 				}
 				break;
 			}
-			case 'D': {
+			case KeyEvent.VK_D: {
 				if (this.coordinateCorpo.get(0).x != xSize * cellSize ) {
 					this.coordinateCorpo.get(0).x = coordinateCorpo.get(0).x + cellSize;
 				}

@@ -14,8 +14,7 @@ public class ScoreSaver {
 		Files.createDirectories(Paths.get(PATH));
 		File file = new File(FILEPATH_S);
 		file.createNewFile();
-		String before = Files.readString(Paths.get(FILEPATH_S));
-		FileWriter f = new FileWriter(file.getAbsolutePath());
+		FileWriter f = new FileWriter(file.getAbsolutePath(),true);
 		String s="";
 		if(w) {
 			s="on";
@@ -23,7 +22,7 @@ public class ScoreSaver {
 		else {
 			s="off";
 		}
-		f.write(nick+"×"+initSize+"×"+score+"×"+s+"×"+area+"\n"+before);
+		f.write(nick+"×"+initSize+"×"+score+"×"+s+"×"+area+"\n");
 		f.close();
 		
 		
@@ -60,9 +59,6 @@ public class ScoreSaver {
 				}
 			}
 		}
-			for(int i = 0;i< data.size();i++) {
-				System.out.println(data.get(i)[2]);
-			}
 	}
 		return data;
 	}
@@ -70,8 +66,7 @@ public class ScoreSaver {
 		Files.createDirectories(Paths.get(PATH));
 		File file = new File(FILEPATH_M);
 		file.createNewFile();
-		String before = Files.readString(Paths.get(FILEPATH_M));
-		FileWriter f = new FileWriter(file.getAbsolutePath());
+		FileWriter f = new FileWriter(file.getAbsolutePath(),true);
 		String winner = "";
 		switch(vincitore) {
 		case 0:{
@@ -84,7 +79,7 @@ public class ScoreSaver {
 			winner="Vince " + p1;
 		}break;
 		}
-		f.write(p1+"×"+p2+"×"+winner+"\n"+before);
+		f.write(p1+"×"+p2+"×"+winner+"\n");
 		f.close();
 		
 		

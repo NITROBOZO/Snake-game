@@ -234,7 +234,7 @@ public class SnakeMultiplayer {
 		}
 	}
 	
-	public void move(char c, char c2) {//movimento
+	public void move(int c, int c2) {//movimento
 		snakes[0].move(c, fieldSize, cellSize, multiplayer,!walls);
 		snakes[1].move(c2, fieldSize, cellSize, multiplayer,!walls);
 	}

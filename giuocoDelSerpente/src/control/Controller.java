@@ -84,7 +84,7 @@ public class Controller implements ActionListener {
 		snake.move(direction, directionP2);
 		frame.getContentPane().repaint();
 		if (snake.appleCollision()) {
-			appleSfx.play();
+			appleSfx.playSfx();
 			int eaten = snake.getLastEaten();
 			int[] nIMG = frame.getPanel().getNIMG();
 			if (eaten == 0 || eaten == 2) {// immagine casuale per la mela
@@ -93,7 +93,7 @@ public class Controller implements ActionListener {
 				nIMG[1] = (int) (Math.random() + 0.5);
 			}
 			frame.getPanel().getLblPunti().setText("SCORE: " + snake.getPunteggio(0));
-			appleSfx.play();
+			
 		}
 		int cPT = snake.getPunteggio(0);
 		editMsg(cPT);

@@ -235,6 +235,7 @@ public class Controller implements ActionListener {
 		int yOffset = (int) (screenSize.height / 100);
 		frame.setUndecorated(true);
 		if (menu.getChckbxFullscreen().isSelected()) {
+			frame.setAlwaysOnTop(true);
 
 			frame.setPreferredSize(screenSize);
 
@@ -247,6 +248,7 @@ public class Controller implements ActionListener {
 			}
 
 		} else {
+			frame.setAlwaysOnTop(false);
 			if (menu.getRdbt2Player().isSelected()) {
 				frame.getPanel().setPoint(new Point((int) (menu.getSelectedResolution().x / 85), yOffset));
 				frame.setPreferredSize(
@@ -322,7 +324,7 @@ public class Controller implements ActionListener {
 						frame.getPanel().getLblGameOver().setText("GAME OVER");
 					}
 
-					saveAndUpdateS(menu.getTextFieldN1().getText(), snake.getLunghezza(0), cPT, snake.getFieldSize(),
+					saveAndUpdateS(menu.getTextFieldN1().getText(), snake.getLunghezza(0), cPT, snake.getFieldSize(),snake.getVelocita(),
 							snake.isWalls());
 				} catch (NumberFormatException | IOException e1) {
 					e1.printStackTrace();
@@ -338,8 +340,8 @@ public class Controller implements ActionListener {
 			ptS = ScoreSaver.get(false);
 			String full = "";
 			for (String[] strs : ptS) {
-				full += strs[0] + " score: " + strs[2] + " w: " + strs[3] + "\nLiniziale: " + strs[1] + " area: "
-						+ strs[4] + "\n";
+				full += strs[0] + " score: " +strs[3] + " vel: "+strs[2] + " w: " + strs[4] + "\nL init: " + strs[1] + " area: "
+						+ strs[5] + "\n";
 				menu.getTextAreaS().setText(full);
 			}
 		} catch (IOException e) {
@@ -363,10 +365,10 @@ public class Controller implements ActionListener {
 		}
 	}
 
-	private void saveAndUpdateS(String str, int l, int c, int fSize, boolean w) {
+	private void saveAndUpdateS(String str, int l, int c, int fSize,int vel, boolean w) {
 		try {
 			// salva il punteggio con tutte le statistiche della partita
-			ScoreSaver.salvaS(str, l, c, fSize, w);
+			ScoreSaver.salvaS(str, l, c, fSize,vel, w);
 			updateS();
 
 		} catch (IOException e1) {
@@ -392,7 +394,7 @@ public class Controller implements ActionListener {
 				ScoreSaver.salvaM("P1", "P2", 2);
 			}
 			if (!ScoreSaver.hasFileS()) {
-				ScoreSaver.salvaS("Player", 3, 5, 20, true);
+				ScoreSaver.salvaS("Player", 3, 5, 20, 4, true);
 			}
 			for (int i = 0; i < 2; i++) {
 				if (i == 0) {

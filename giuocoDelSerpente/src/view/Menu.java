@@ -269,7 +269,7 @@ public class Menu extends JFrame implements ActionListener{
 		contentPane.add(chckbxFullscreen);
 		
 		comboBoxResolution = new JComboBox<String>();
-		comboBoxResolution.setModel(new DefaultComboBoxModel<String>(new String[] {"1920x1080", "1600x900", "1280x720", "960x540"}));
+		comboBoxResolution.setModel(new DefaultComboBoxModel(new String[] {"1600x900", "1280x720", "960x540"}));
 		comboBoxResolution.setBounds(376, 167, 64, 28);
 		contentPane.add(comboBoxResolution);
 		
@@ -306,11 +306,11 @@ public class Menu extends JFrame implements ActionListener{
 		JLabel lblVsMode = new JLabel("VS MODE");
 		lblVsMode.setForeground(Color.WHITE);
 		lblVsMode.setBackground(Color.WHITE);
-		lblVsMode.setBounds(377, 11, 63, 14);
+		lblVsMode.setBounds(410, 11, 63, 14);
 		contentPane.add(lblVsMode);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(240, 28, 114, 106);
+		scrollPane.setBounds(240, 28, 160, 106);
 		contentPane.add(scrollPane);
 		
 		textAreaS = new JTextArea();
@@ -318,7 +318,7 @@ public class Menu extends JFrame implements ActionListener{
 		textAreaS.setEditable(false);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(371, 28, 200, 106);
+		scrollPane_1.setBounds(410, 28, 161, 106);
 		contentPane.add(scrollPane_1);
 		
 		textAreaM = new JTextArea();

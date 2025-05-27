@@ -10,7 +10,7 @@ public class ScoreSaver {
 	private static final String PATH=System.getenv("APPDATA")+"\\SnakeJavaGame";
 	private static final String FILEPATH_S=PATH+"\\scoresS.txt";
 	private static final String FILEPATH_M=PATH+"\\scoresM.txt";
-	public static void salvaS(String nick,int initSize,int score,int area,boolean w) throws IOException {
+	public static void salvaS(String nick,int initSize,int score,int area,int vel,boolean w) throws IOException {
 		Files.createDirectories(Paths.get(PATH));
 		File file = new File(FILEPATH_S);
 		file.createNewFile();
@@ -22,7 +22,7 @@ public class ScoreSaver {
 		else {
 			s="off";
 		}
-		f.write(nick+"×"+initSize+"×"+score+"×"+s+"×"+area+"\n");
+		f.write(nick+"×"+initSize+"×"+vel+"×"+score+"×"+s+"×"+area+"\n");
 		f.close();
 		
 		
@@ -73,10 +73,10 @@ public class ScoreSaver {
 			winner="Pareggio";
 		}break;
 		case 1:{
-			winner="Vince " + p2;
+			winner=p2;
 		}break;
 		case 2:{
-			winner="Vince " + p1;
+			winner=p1;
 		}break;
 		}
 		f.write(p1+"×"+p2+"×"+winner+"\n");

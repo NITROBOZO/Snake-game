@@ -9,16 +9,18 @@ public class ControllerInput {
 	ControllerState inputP2;
 	Thread t = new Thread(()->{
 		while (true) {
-            inputP1 = controllers.getState(0);// First controller
+            inputP1 = controllers.getState(0);
             inputP2 = controllers.getState(1);
 		}});
     public ControllerInput(){
         controllers = new ControllerManager();
-        controllers.initSDLGamepad();  // Must call this first
-        // controllers.quitSDLGamepad();  // Call this when closing
+        controllers.initSDLGamepad();  
     }
     public void start() {
     	t.start();
+    }
+    public void stop() {
+    	controllers.quitSDLGamepad();
     }
     public boolean isConnected() {
     	return inputP1.isConnected;

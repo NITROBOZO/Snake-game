@@ -22,7 +22,6 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 import javax.swing.JCheckBox;
-import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
@@ -51,10 +50,14 @@ public class Menu extends JFrame implements ActionListener{
 	private JLabel lblNomeP2;
 	private JTextArea textAreaS;
 	private JTextArea textAreaM;
+	private JCheckBox chckbxGrid;
 	
 	
 	
 
+	public JCheckBox getChckbxGrid() {
+		return chckbxGrid;
+	}
 	public JTextArea getTextAreaS() {
 		return textAreaS;
 	}
@@ -118,6 +121,7 @@ public class Menu extends JFrame implements ActionListener{
 	 * Create the frame.
 	 */
 	public Menu() {
+		setTitle("Snake");
 		setResizable(false);
 		colors = new Color[4];
 		colors[0]=Color.red;
@@ -126,7 +130,7 @@ public class Menu extends JFrame implements ActionListener{
 		colors[3]=Color.cyan;
 		windowC = new FrameColori();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 597, 444);
+		setBounds(100, 100, 597, 399);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(0, 0, 0));
@@ -179,7 +183,7 @@ public class Menu extends JFrame implements ActionListener{
 		btnPlay = new JButton("");
 		btnPlay.setOpaque(false);
 		btnPlay.setFont(new Font("Unispace", Font.PLAIN, 50));
-		btnPlay.setBounds(154, 254, 200, 80);
+		btnPlay.setBounds(183, 255, 200, 80);
 		btnPlay.setFocusPainted(false);
 		btnPlay.setIcon(IMG[0]);
 		btnPlay.setRolloverIcon(IMG[2]);
@@ -187,8 +191,8 @@ public class Menu extends JFrame implements ActionListener{
 		btnPlay.setRolloverEnabled(true);
 		contentPane.add(btnPlay);
 		
-		comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19"}));
+		comboBox = new JComboBox<String>();
+		comboBox.setModel(new DefaultComboBoxModel<String>(new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19"}));
 		comboBox.setSelectedIndex(2);
 		comboBox.setBounds(225, 168, 39, 27);
 		contentPane.add(comboBox);
@@ -233,7 +237,7 @@ public class Menu extends JFrame implements ActionListener{
 		btnColori.setBounds(410, 284, 89, 23);
 		contentPane.add(btnColori);
 		
-		areaField = new JTextField(); //a
+		areaField = new JTextField(); 
 		areaField.setText("20");
 		areaField.setColumns(10);
 		areaField.setBounds(470, 171, 33, 20);
@@ -243,7 +247,7 @@ public class Menu extends JFrame implements ActionListener{
 		lblTitolo.setHorizontalAlignment(JLabel.CENTER);
 		lblTitolo.setForeground(Color.WHITE);
 		lblTitolo.setFont(new Font("Dialog", Font.BOLD, 38));
-		lblTitolo.setBounds(0, 28, 155, 39);
+		lblTitolo.setBounds(0, 11, 244, 39);
 		contentPane.add(lblTitolo);
 		
 		JLabel lblArea = new JLabel("Area");
@@ -269,7 +273,7 @@ public class Menu extends JFrame implements ActionListener{
 		contentPane.add(chckbxFullscreen);
 		
 		comboBoxResolution = new JComboBox<String>();
-		comboBoxResolution.setModel(new DefaultComboBoxModel(new String[] {"1600x900", "1280x720", "960x540"}));
+		comboBoxResolution.setModel(new DefaultComboBoxModel<String>(new String[] {"1600x900", "1280x720", "960x540"}));
 		comboBoxResolution.setBounds(376, 167, 64, 28);
 		contentPane.add(comboBoxResolution);
 		
@@ -324,12 +328,20 @@ public class Menu extends JFrame implements ActionListener{
 		textAreaM = new JTextArea();
 		textAreaM.setEditable(false);
 		scrollPane_1.setViewportView(textAreaM);
+		
+		chckbxGrid = new JCheckBox("Griglia");
+		chckbxGrid.setOpaque(false);
+		chckbxGrid.setForeground(Color.WHITE);
+		chckbxGrid.setFont(new Font("Unispace", Font.PLAIN, 20));
+		chckbxGrid.setFocusPainted(false);
+		chckbxGrid.setBounds(78, 57, 155, 23);
+		contentPane.add(chckbxGrid);
 		windowC.getOkButton().addActionListener(this);
 		windowC.getCancelButton().addActionListener(this);
 	}
-
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		//finestra selezione colori
 		if(e.getSource()==windowC.getOkButton()) {
 			colors = windowC.getColors();
 		}

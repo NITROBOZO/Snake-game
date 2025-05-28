@@ -22,22 +22,30 @@ public class JPanel_ extends JPanel {
 	private JButton btnRestart;
 	private int[] nIMG;
 	private Color[] colors;
-	private Point point = new Point(0,0);
+	private Point point;
+	private boolean grid;
 	private static final long serialVersionUID = 1L;
+
 	public void setColors(Color[] c) {
-		colors=c;
+		colors = c;
 	}
+
 	public JLabel getLblPunti() {
 		return lblPunti;
 	}
-	
+
 	public int[] getNIMG() {
 		return nIMG;
+	}
+
+	public void setGrid(boolean grid) {
+		this.grid = grid;
 	}
 
 	public JLabel getLblGameOver() {
 		return lblGameOver;
 	}
+
 	public void setPoint(Point p) {
 		point = p;
 	}
@@ -45,25 +53,30 @@ public class JPanel_ extends JPanel {
 	public JButton getBtnRestart() {
 		return btnRestart;
 	}
+
 	public void updatePrefSize() {
-		if(snake.isMultiplayer()) {
-			setPreferredSize(new Dimension((int)(snake.getFieldSize()*1.7)*snake.getCellSize() + snake.getCellSize(), snake.getFieldSize()*snake.getCellSize() + snake.getCellSize()));
-		}
-		else {
-			setPreferredSize(new Dimension(snake.getFieldSize()*snake.getCellSize() + snake.getCellSize(), snake.getFieldSize()*snake.getCellSize() + snake.getCellSize()));
+		if (snake.isMultiplayer()) {
+			setPreferredSize(
+					new Dimension((int) (snake.getFieldSize() * 1.7) * snake.getCellSize() + snake.getCellSize(),
+							snake.getFieldSize() * snake.getCellSize() + snake.getCellSize()));
+		} else {
+			setPreferredSize(new Dimension(snake.getFieldSize() * snake.getCellSize() + snake.getCellSize(),
+					snake.getFieldSize() * snake.getCellSize() + snake.getCellSize()));
 		}
 		revalidate();
 	}
 
 	public JPanel_(SnakeMultiplayer snake) {
+		grid = false;
+		point = new Point(0, 0);
 		colors = new Color[4];
-		colors[0]=Color.red;
-		colors[1]=Color.green;
-		colors[2]=Color.blue;
-		colors[3]=Color.cyan;
+		colors[0] = Color.red;
+		colors[1] = Color.green;
+		colors[2] = Color.blue;
+		colors[3] = Color.cyan;
 		nIMG = new int[2];
-		nIMG[0]=0;
-		nIMG[1]=0;
+		nIMG[0] = 0;
+		nIMG[1] = 0;
 		lblGameOver = new JLabel("GAME OVER");
 		lblGameOver.setHorizontalAlignment(JLabel.CENTER);
 		lblGameOver.setFont(new Font("Unispace", Font.PLAIN, 80));
@@ -74,7 +87,8 @@ public class JPanel_ extends JPanel {
 		add(lblGameOver);
 		this.snake = snake;
 		setLayout(null);
-		setPreferredSize(new Dimension(snake.getFieldSize()*snake.getCellSize() + snake.getCellSize(), snake.getFieldSize()*snake.getCellSize() + snake.getCellSize()));
+		setPreferredSize(new Dimension(snake.getFieldSize() * snake.getCellSize() + snake.getCellSize(),
+				snake.getFieldSize() * snake.getCellSize() + snake.getCellSize()));
 		setBackground(Color.BLACK);
 		lblPunti = new JLabel("SCORE: 0");
 		lblPunti.setVisible(false);
@@ -98,54 +112,68 @@ public class JPanel_ extends JPanel {
 	@Override
 	protected void paintComponent(Graphics g) {
 		Point p = point;
-		
-		
+		int c = snake.getCellSize();
+		int totSize = (int) (snake.getFieldSize() * SnakeMultiplayer.MPCONST) * c + c;
+		int partSize = snake.getFieldSize() * c + c;
 		if (snake.isStart()) {
 			super.paintComponent(g);
-			//griglia
-			if(snake.isMultiplayer()) {
-			for (int i = 0; i <= (int)((snake.getFieldSize()+1)*snake.MPCONST )* snake.getCellSize(); i += snake.getCellSize()) {
-				g.drawLine(i + p.x, 0 + p.y, i+p.x, snake.getFieldSize() * snake.getCellSize() + snake.getCellSize() + p.y);
-				g.drawLine(0+ p.x, i + p.y, (int)(snake.getFieldSize()*snake.MPCONST) * snake.getCellSize() + snake.getCellSize() + p.x, i+ p.y);
+			// griglia
 
+			if (snake.isMultiplayer()) {
+				if (grid) {
+					// disegna griglia completa
+					for (int i = 0; i <= (int) ((snake.getFieldSize() + 1) * SnakeMultiplayer.MPCONST) * c; i += c) {
+						g.drawLine(i + p.x, 0 + p.y, i + p.x, snake.getFieldSize() * c + c + p.y);
+						if (i <= (int) ((snake.getFieldSize() + 1)) * c) {
+							g.drawLine(0 + p.x, i + p.y, totSize + p.x, i + p.y);
+						}
+					}
+				} else { // Disegna bordi
+					g.drawLine(0 + p.x, 0 + p.y, totSize + p.x, 0 + p.y);
+					g.drawLine(0 + p.x, partSize + p.y, totSize + p.x, partSize + p.y);
+					g.drawLine(0 + p.x, 0 + p.y, 0 + p.x, partSize + p.y);
+					g.drawLine(totSize + p.x, 0 + p.y, totSize + p.x, partSize + p.y);
+				}
+			} else {
+				if (grid) {
+					// disegna griglia completa
+					for (int i = 0; i <= (snake.getFieldSize() + 1) * c; i += c) {
+						g.drawLine(i + p.x, 0 + p.y, i + p.x, partSize + p.y);
+						g.drawLine(0 + p.x, i + p.y, partSize + p.x, i + p.y);
+					}
+				} else { // disegna bordi
+					g.drawLine(0 + p.x, 0 + p.y, partSize + p.x, 0 + p.y);
+					g.drawLine(0 + p.x, partSize + p.y, partSize + p.x, partSize + p.y);
+					g.drawLine(0 + p.x, 0 + p.y, 0 + p.x, partSize + p.y);
+					g.drawLine(partSize + p.x, 0 + p.y, partSize + p.x, partSize + p.y);
 				}
 			}
-			else {
-				for (int i = 0; i <= (snake.getFieldSize() + 1) * snake.getCellSize(); i += snake.getCellSize()) {
-					g.drawLine(i + p.x, 0 + p.y, i + p.x, snake.getFieldSize() * snake.getCellSize() + snake.getCellSize() + p.y);
-					g.drawLine(0+ p.x, i + p.y, snake.getFieldSize() * snake.getCellSize() + snake.getCellSize() + p.x, i+ p.y);
-
-				}
-			}
+			// disegna serpenti
 			for (int i = 0; i < snake.getLunghezza(0); i++) {
 				if (i == 0) {
 					g.setColor(colors[0]);
 				} else {
 					g.setColor(colors[2]);
 				}
-				g.fillRect(snake.getCoordinate(0,i).x + p.x, snake.getCoordinate(0,i).y + p.y, snake.getCellSize(), snake.getCellSize());
+				g.fillRect(snake.getCoordinate(0, i).x + p.x, snake.getCoordinate(0, i).y + p.y, c, c);
 			}
-				if(snake.isMultiplayer()) {
-					for(int j = 0; j < snake.getLunghezza(1); j++) {
-						if (j == 0) {
-							g.setColor(colors[1]);
-						} else {
-							g.setColor(colors[3]);
-						}
-						g.fillRect(snake.getCoordinate(1,j).x + p.x, snake.getCoordinate(1,j).y + p.y, snake.getCellSize(), snake.getCellSize());
-						
+			if (snake.isMultiplayer()) {
+				for (int j = 0; j < snake.getLunghezza(1); j++) {
+					if (j == 0) {
+						g.setColor(colors[1]);
+					} else {
+						g.setColor(colors[3]);
 					}
+					g.fillRect(snake.getCoordinate(1, j).x + p.x, snake.getCoordinate(1, j).y + p.y, c, c);
+
 				}
 			}
-			
-			// Get which apple was last eaten (0 or 1)
-			//se mangio mela 1, aggiorno solo mela 1, altrimenti aggiorno mela 2
-				g.drawImage(APPLEIMG[nIMG[0]], snake.getApplePos(0).x + p.x, snake.getApplePos(0).y + p.y, snake.getCellSize(), snake.getCellSize(),
-						this);
-				g.drawImage(APPLEIMG[nIMG[1]], snake.getApplePos(1).x + p.x, snake.getApplePos(1).y + p.y, snake.getCellSize(), snake.getCellSize(),
-						this);
 		}
-		
-	
 
+		// disegna mele
+		// se mangio mela 1, aggiorno solo mela 1, altrimenti aggiorno mela 2
+		g.drawImage(APPLEIMG[nIMG[0]], snake.getApplePos(0).x + p.x, snake.getApplePos(0).y + p.y, c, c, this);
+		g.drawImage(APPLEIMG[nIMG[1]], snake.getApplePos(1).x + p.x, snake.getApplePos(1).y + p.y, c, c, this);
 	}
+
+}

@@ -8,8 +8,9 @@ import java.io.FileWriter;
 
 public class ScoreSaver {
 	private static final String PATH=System.getenv("APPDATA")+"\\SnakeJavaGame";
-	private static final String FILEPATH_S=PATH+"\\scoresS.txt";
-	private static final String FILEPATH_M=PATH+"\\scoresM.txt";
+	private static final String FILEPATH_S=PATH+"\\scoresS.snk";
+	private static final String FILEPATH_M=PATH+"\\scoresM.snk";
+	//salva dentro il file Singleplayer
 	public static void salvaS(String nick,int initSize,int score,int area,int vel,boolean w) throws IOException {
 		Files.createDirectories(Paths.get(PATH));
 		File file = new File(FILEPATH_S);
@@ -24,9 +25,8 @@ public class ScoreSaver {
 		}
 		f.write(nick+"×"+initSize+"×"+vel+"×"+score+"×"+s+"×"+area+"\n");
 		f.close();
-		
-		
 	}
+	//controlla se esiste il file
 	public static boolean hasFileS() {
 		File f1 = new File(FILEPATH_S);
 		return f1.exists();
@@ -43,25 +43,27 @@ public class ScoreSaver {
 		else {
 			path = FILEPATH_S;
 		}
+		//prendi i dati dal file e li sposta in un array
 		ArrayList<String[]> data = new ArrayList<String[]>();
 		String str = Files.readString(Paths.get(path));
 		for(String s : str.split("\n")) {
 			data.add(s.split("\\×"));
 		}
 		if(!b) {
+			// bubblesort
 			for(int j=0;j<data.size()-1;j++) {
 			for(int i=0;i<data.size()-1;i++) {
-				// Inside your inner loop where you compare:
-				if(Integer.valueOf(data.get(i)[2]) < Integer.valueOf(data.get(i+1)[2])) {
-				    String[] temp = data.get(i); // Temporarily store the current element
-				    data.set(i, data.get(i+1));   // Replace current with the next (larger) element
-				    data.set(i+1, temp);          // Put the original current element into the next position
+				if(Integer.valueOf(data.get(i)[3]) < Integer.valueOf(data.get(i+1)[3])) {
+				    String[] temp = data.get(i); 
+				    data.set(i, data.get(i+1));   
+				    data.set(i+1, temp);      
 				}
 			}
 		}
 	}
 		return data;
 	}
+	//salva dentro il file Multiplayer
 	public static void salvaM(String p1,String p2,int vincitore) throws IOException {
 		Files.createDirectories(Paths.get(PATH));
 		File file = new File(FILEPATH_M);

@@ -23,7 +23,11 @@ public class AudioPlayer {
 		}
 		suono.start();
 	}
+	/*il play() normale
+	a volte non funzionava 
+	usato ripetutamente */
 	public void playSfx() {
+		
 		new Thread(()->{
 			try {
 				URL sfxURL = getClass().getResource(path);
@@ -32,7 +36,6 @@ public class AudioPlayer {
 				sfx.open(audioInput);
 				sfx.start();
 			} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}).start();

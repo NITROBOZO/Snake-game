@@ -54,6 +54,7 @@ public class Controller implements ActionListener {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				key = e.getKeyCode();
+				/* gestione input */
 				keyHandler();
 			}
 		});
@@ -80,6 +81,7 @@ public class Controller implements ActionListener {
 
 	}
 
+	// aggiorna serpente
 	private void update() {
 		snake.move(direction, directionP2);
 		frame.getContentPane().repaint();
@@ -93,22 +95,24 @@ public class Controller implements ActionListener {
 				nIMG[1] = (int) (Math.random() + 0.5);
 			}
 			frame.getPanel().getLblPunti().setText("SCORE: " + snake.getPunteggio(0));
-			
+
 		}
 		int cPT = snake.getPunteggio(0);
 		editMsg(cPT);
 	}
 
-	private void restartPane() {
+	private void restartPane() {// reimposta la finestra di gioco
 		menu.setVisible(true);
 		frame.dispose();
 		frame.getPanel().getLblGameOver().setVisible(false);
 		frame.getPanel().getBtnRestart().setVisible(false);
 		frame.getPanel().getLblPunti().setText("SCORE: " + 0);
 	}
+
+	/* gestione input */
 	private void keyHandler() {
 		if (snake.isMultiplayer()) {
-			switch (key) {// multiplayer WASD a p1, IJKL e le frecciette a p2
+			switch (key) {
 			case KeyEvent.VK_DOWN: {
 				key = KeyEvent.VK_K;
 			}
@@ -131,19 +135,23 @@ public class Controller implements ActionListener {
 			}
 		} else {
 			switch (key) {
-			case KeyEvent.VK_DOWN:case KeyEvent.VK_K: {
+			case KeyEvent.VK_DOWN:
+			case KeyEvent.VK_K: {
 				key = KeyEvent.VK_S;
 			}
 				break;
-			case KeyEvent.VK_UP:case KeyEvent.VK_I: {
+			case KeyEvent.VK_UP:
+			case KeyEvent.VK_I: {
 				key = KeyEvent.VK_W;
 			}
 				break;
-			case KeyEvent.VK_LEFT:case KeyEvent.VK_J: {
+			case KeyEvent.VK_LEFT:
+			case KeyEvent.VK_J: {
 				key = KeyEvent.VK_A;
 			}
 				break;
-			case KeyEvent.VK_RIGHT:case KeyEvent.VK_L: {
+			case KeyEvent.VK_RIGHT:
+			case KeyEvent.VK_L: {
 				key = KeyEvent.VK_D;
 			}
 				break;
@@ -180,6 +188,7 @@ public class Controller implements ActionListener {
 
 		}
 	}
+
 	private void padHandler() {
 		if (snake.isMultiplayer()) {
 			if (controller.isP1DpadDown()) {
@@ -194,7 +203,7 @@ public class Controller implements ActionListener {
 			if (controller.isP1DpadRight()) {
 				directionP2 = KeyEvent.VK_D;
 			}
-			
+
 		} else {
 			if (controller.isP1DpadDown()) {
 				direction = KeyEvent.VK_S;
@@ -210,6 +219,7 @@ public class Controller implements ActionListener {
 			}
 		}
 	}
+
 	private void start() {
 		snake.setLunghezzaIniziale(Integer.valueOf((String) menu.getComboBox().getSelectedItem()));
 		snake.setStart(true);
@@ -228,34 +238,38 @@ public class Controller implements ActionListener {
 		timer.restart();
 	}
 
-	private void snakeSetup() {
+	private void snakeSetup() {// setup finestra e attributi
 		snake.setWalls(menu.getBoxMuri().isSelected());
-		snake.setCellSize((int) menu.getSelectedResolution().y / (Integer.valueOf(menu.getAreaField().getText()) + 1));
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		int yOffset = (int) (screenSize.height / 100);
+		frame.getPanel().setGrid(menu.getChckbxGrid().isSelected());
+		snake.setCellSize(
+				(int) (menu.getSelectedResolution().y / 1.05) / (Integer.valueOf(menu.getAreaField().getText()) + 1));
+		int yOffset = 0;
 		frame.setUndecorated(true);
 		if (menu.getChckbxFullscreen().isSelected()) {
+			Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+			yOffset = (int) (screenSize.height / 30);
 			frame.setAlwaysOnTop(true);
-
+			frame.setUndecorated(true);
 			frame.setPreferredSize(screenSize);
 
 			if (menu.getRdbt1Player().isSelected()) {
-				frame.getPanel().setPoint(new Point(screenSize.width / 5, yOffset));
+				frame.getPanel().setPoint(new Point((int) (screenSize.width / 4.3), yOffset));
 			} else {
 				yOffset = yOffset - snake.getCellSize() / 12;
-				frame.getPanel().setPoint(new Point(screenSize.width / 30, yOffset));
-				frame.getPanel().setPoint(new Point(screenSize.width / 29, yOffset));
+				frame.getPanel().setPoint(new Point(screenSize.width / 20, yOffset));
 			}
 
 		} else {
 			frame.setAlwaysOnTop(false);
+			frame.setUndecorated(false);
+			int yD = (int) (menu.getSelectedResolution().y / 0.9755);
+			yOffset = (int) (menu.getSelectedResolution().y / 50);
 			if (menu.getRdbt2Player().isSelected()) {
-				frame.getPanel().setPoint(new Point((int) (menu.getSelectedResolution().x / 85), yOffset));
-				frame.setPreferredSize(
-						new Dimension((int) (menu.getSelectedResolution().x / 1.05), menu.getSelectedResolution().y));
+				frame.getPanel().setPoint(new Point((int) (menu.getSelectedResolution().x / 30), yOffset));
+				frame.setPreferredSize(new Dimension((int) (menu.getSelectedResolution().x / 1.05), yD));
 			} else {
-				frame.setPreferredSize(new Dimension((int) (menu.getSelectedResolution().x / 1.79),
-						(int) (menu.getSelectedResolution().y / 1.01)));
+				frame.getPanel().setPoint(new Point((int) (menu.getSelectedResolution().x / 80), yOffset));
+				frame.setPreferredSize(new Dimension((int) (menu.getSelectedResolution().x / 1.78), yD));
 			}
 
 		}
@@ -272,19 +286,16 @@ public class Controller implements ActionListener {
 		}
 		snake.setVelocita(Integer.valueOf((String) menu.getComboBoxVel().getSelectedItem()));
 		timer.setDelay(snake.getVelocita());// regola velocità di gioco
-
-		// Set field and cell size before snake creation
 		try {
 			String str = menu.getAreaField().getText();
 			int n = Integer.valueOf(str.replaceAll("[^0-9]", ""));
-			snake.setFieldSize(n > 120 || n < 10 ? 40 : n);
+			snake.setFieldSize(n > 60 || n < 10 ? 40 : n);
 		} catch (NumberFormatException e1) {
 			snake.setFieldSize(40);
 		}
 		// inizializza il serpente
 		snake.reset();
 
-		
 	}
 
 	private void editMsg(int cPT) {
@@ -324,8 +335,8 @@ public class Controller implements ActionListener {
 						frame.getPanel().getLblGameOver().setText("GAME OVER");
 					}
 
-					saveAndUpdateS(menu.getTextFieldN1().getText(), snake.getLunghezza(0), cPT, snake.getFieldSize(),snake.getVelocita(),
-							snake.isWalls());
+					saveAndUpdateS(menu.getTextFieldN1().getText(), snake.getLunghezza(0), cPT, snake.getFieldSize(),
+							snake.getVelocita(), snake.isWalls());
 				} catch (NumberFormatException | IOException e1) {
 					e1.printStackTrace();
 
@@ -334,18 +345,17 @@ public class Controller implements ActionListener {
 		}
 	}
 
-	private void updateS() {
+	private void updateS() {// aggiorna record nel menu
 		try {
 			ArrayList<String[]> ptS;
 			ptS = ScoreSaver.get(false);
 			String full = "";
 			for (String[] strs : ptS) {
-				full += strs[0] + " score: " +strs[3] + " vel: "+strs[2] + " w: " + strs[4] + "\nL init: " + strs[1] + " area: "
-						+ strs[5] + "\n";
+				full += strs[0] + " score: " + strs[3] + " vel: " + strs[2] + " w: " + strs[4] + "\nL init: " + strs[1]
+						+ " area: " + strs[5] + "\n";
 				menu.getTextAreaS().setText(full);
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -360,19 +370,18 @@ public class Controller implements ActionListener {
 				menu.getTextAreaM().setText(full);
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-	private void saveAndUpdateS(String str, int l, int c, int fSize,int vel, boolean w) {
+	// salva il punteggio con le statistiche della partita necessarie
+	private void saveAndUpdateS(String str, int l, int c, int fSize, int vel, boolean w) {
 		try {
-			// salva il punteggio con tutte le statistiche della partita
-			ScoreSaver.salvaS(str, l, c, fSize,vel, w);
+
+			ScoreSaver.salvaS(str, l, c, fSize, vel, w);
 			updateS();
 
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 	}
@@ -383,11 +392,11 @@ public class Controller implements ActionListener {
 			updateM();
 
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 	}
 
+	// inizializza file
 	private void initFiles() {
 		try {
 			if (!ScoreSaver.hasFileM()) {

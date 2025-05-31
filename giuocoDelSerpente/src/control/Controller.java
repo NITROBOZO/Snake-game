@@ -329,14 +329,14 @@ public class Controller implements ActionListener {
 			} else {
 				try {
 					// messaggio di vincita solo se è un nuovo record
-					if (Integer.valueOf(ScoreSaver.get(false).get(0)[2]) < cPT) {
+					if (Integer.valueOf(ScoreSaver.get(false).get(0)[3]) < cPT) {
 						frame.getPanel().getLblGameOver().setText("NUOVO RECORD!");
 					} else {
 						frame.getPanel().getLblGameOver().setText("GAME OVER");
 					}
 
-					saveAndUpdateS(menu.getTextFieldN1().getText(), snake.getLunghezza(0), cPT, snake.getFieldSize(),
-							snake.getVelocita(), snake.isWalls());
+					saveAndUpdateS(menu.getTextFieldN1().getText(), snake.getLunghezzaInit(),cPT, snake.getFieldSize(),
+							menu.getComboBoxVel().getSelectedIndex()+1, snake.isWalls());
 				} catch (NumberFormatException | IOException e1) {
 					e1.printStackTrace();
 
